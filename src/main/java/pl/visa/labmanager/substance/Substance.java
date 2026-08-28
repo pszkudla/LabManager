@@ -15,7 +15,7 @@ public class Substance {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String iupacName;
+    private String casNumber;
     private String smiles;
     private String smarts;
-
 }
