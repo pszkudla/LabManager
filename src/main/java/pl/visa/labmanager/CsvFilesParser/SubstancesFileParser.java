@@ -3,18 +3,14 @@ package pl.visa.labmanager.CsvFilesParser;
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvException;
 import pl.visa.labmanager.substance.Substance;
-import pl.visa.labmanager.substance.SubstanceRepository;
 
-import javax.imageio.IIOException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.Reader;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +25,7 @@ public class SubstancesFileParser {
 
             try{
                 Connection con = DbUtils.getConnection();
-                PreparedStatement ps = con.prepareStatement("INSERT INTO substances (iupac_name, cas_number) VALUES (?, ?)");
+                PreparedStatement ps = con.prepareStatement("INSERT IGNORE INTO substances (iupac_name, cas_number) VALUES (?, ?)");
                 for (String[] row : rows.subList(1, rows.size())) {
                     String iupacName = row[3];
                     String cas = row[1];
