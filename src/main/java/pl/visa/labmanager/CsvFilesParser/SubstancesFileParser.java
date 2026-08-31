@@ -2,6 +2,7 @@ package pl.visa.labmanager.CsvFilesParser;
 
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvException;
+import pl.visa.labmanager.DbUtils.DbUtils;
 import pl.visa.labmanager.substance.Substance;
 
 import java.io.FileReader;
@@ -21,18 +22,16 @@ public class SubstancesFileParser {
 
          try (CSVReader reader = new CSVReader(new FileReader("src/main/resources/SubstancesFileToParse.csv"))) {
             List<String[]> rows = reader.readAll();
-            List<Substance> substancesToAdd = new ArrayList<>();
 
             try{
                 Connection con = DbUtils.getConnection();
-                PreparedStatement ps = con.prepareStatement("INSERT IGNORE INTO substances (iupac_name, cas_number) VALUES (?, ?)");
+                PreparedStatement ps = con.prepareStatement("INSERT IGNORE INTO substances (iupac_name, cas_number, uuid) VALUES (?, ?, UUID())");
                 for (String[] row : rows.subList(1, rows.size())) {
                     String iupacName = row[3];
                     String cas = row[1];
                     ps.setString(1, iupacName);
                     ps.setString(2, cas);
                     ps.addBatch();
-
                 }
                 ps.executeBatch();
             } catch (SQLException e) {
