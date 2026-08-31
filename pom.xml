@@ -72,6 +72,15 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
+
+
+        <!-- Source: https://mvnrepository.com/artifact/uk.ac.cam.ch.opsin/opsin-core -->
+        <dependency>
+            <groupId>uk.ac.cam.ch.opsin</groupId>
+            <artifactId>opsin-core</artifactId>
+            <version>2.9.0</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
     <build>
