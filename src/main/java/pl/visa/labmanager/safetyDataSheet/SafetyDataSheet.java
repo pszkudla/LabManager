@@ -1,0 +1,40 @@
+package pl.visa.labmanager.safetyDataSheet;
+
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UuidGenerator;
+import pl.visa.labmanager.substance.Substance;
+
+import java.time.LocalDateTime;
+import java.util.UUID;
+
+@Entity
+@Getter
+@Setter
+@Table(name="safety_data_sheets")
+public class SafetyDataSheet {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long Id;
+
+    @ManyToOne
+    @JoinColumn(name="substance_id")
+    private Substance substance;
+
+    private String orginalFileName;
+
+    //Zastanawiam się czy należy stworzyć na nich osobną encję. Wtedy przy dodawaniu SDSa można byłoby ich sobie wybierać z selecta. Pytanie czy nie istnieją potrzebniejsze funkcjonalnaości.
+    private String supplier;
+
+    private String language;
+
+    @CreationTimestamp
+    private LocalDateTime localDateTime;
+
+    @UuidGenerator
+    @Column(nullable = false, unique = true, updatable = false)
+    private UUID uuid;
+
+}
