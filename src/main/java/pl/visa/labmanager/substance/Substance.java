@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+
 @Entity
 @Getter
 @Setter
@@ -15,9 +16,10 @@ public class Substance {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Size(min=2, max=10240)
+    @Size(min=2, max=2048)
     private String iupacName;
     private String casNumber;
     private String smiles;
     private String smarts;
+    public String uuid;
 }
