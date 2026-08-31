@@ -7,7 +7,7 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@Table(name="shelf_zones")
+@Table(name="zones")
 public class Zone {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
