@@ -26,7 +26,7 @@ public class CabinetController {
     public void addCabinet(@RequestBody Map<String, String> map){
         System.out.println(map);
         Cabinet addedCabinet = new Cabinet();
-        addedCabinet.setCabiinetName(map.get("cabinetName"));
+        addedCabinet.setCabinetName(map.get("cabinetName"));
         Optional<Laboratory> cabinetLabOpt = labService.getLabFromUuid(UUID.fromString(map.get("labUuid")));
         System.out.println(labService.getLabFromUuid(UUID.fromString(map.get("labUuid"))));
         if (cabinetLabOpt.isPresent()) {
