@@ -1,10 +1,14 @@
 package pl.visa.labmanager.container;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.UuidGenerator;
 import pl.visa.labmanager.location.zone.Zone;
 import pl.visa.labmanager.substance.Substance;
+
+import java.util.UUID;
 
 @Entity
 @Getter
@@ -26,5 +30,20 @@ public class Container {
     @ManyToOne
     @JoinColumn(name="zone_id")
     private Zone zone;
+
+    @UuidGenerator
+    @Column(nullable = false, unique = true, updatable = false)
+    private UUID uuid;
+
+    @JsonIgnore
+    public ContainerDTO getDto() {
+        ContainerDTO returnedDto = new ContainerDTO();
+        returnedDto.setCapacity(this.getCapacity());
+        returnedDto.setNotes(this.getNotes());
+        returnedDto.setSubstanceDto(this.getSubstance().getDTOFromSubstance());
+        returnedDto.setUuid(this.getUuid().toString());
+        returnedDto.setZoneDto(this.getZone().getDto());
+        return returnedDto;
+    }
 
 }
