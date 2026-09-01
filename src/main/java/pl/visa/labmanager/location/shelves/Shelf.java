@@ -26,6 +26,11 @@ public class Shelf {
     private UUID uuid;
 
 
-
-
+    public ShelfDTO getShelfDTO() {
+        ShelfDTO returnedDto = new ShelfDTO();
+        returnedDto.setCabinetDTO(this.getCabinet().getDTO());
+        returnedDto.setShelfName(this.getShelfName());
+        returnedDto.setUuid(this.getUuid().toString());
+        return returnedDto;
+    }
 }
