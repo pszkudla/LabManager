@@ -34,6 +34,17 @@ public class ContainerService {
         containerRepository.save(addedContainer);
     }
 
+    public String deleteByUuid(String uuid) {
+        UUID containerUuid = UUID.fromString(uuid);
+        Optional<Container> containerToDelete = containerRepository.findContainerByUuid(containerUuid);
+        if (containerToDelete.isPresent()) {
+            containerRepository.delete(containerToDelete.get());
+            return "Udało się usunąć pojemnik o uuid = %s.".formatted(uuid);
+        } else {
+            return "Pojemnik o podanym uuid (%s) nie istnieje.".formatted(uuid);
+        }
+    }
+
 
 
 
