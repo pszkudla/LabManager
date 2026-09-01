@@ -1,5 +1,6 @@
 package pl.visa.labmanager.location.lab;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -21,6 +22,15 @@ public class Laboratory {
     @UuidGenerator
     @Column(nullable = false, unique = true, updatable = false)
     private UUID uuid;
+
+
+    @JsonIgnore
+    public LaboratoryDTO getLabDTO() {
+        LaboratoryDTO laboratoryDTO = new LaboratoryDTO();
+        laboratoryDTO.setLaboratoryName(this.laboratoryName);
+        laboratoryDTO.setUuid(this.getUuid().toString());
+        return laboratoryDTO;
+    }
 
 
 }
