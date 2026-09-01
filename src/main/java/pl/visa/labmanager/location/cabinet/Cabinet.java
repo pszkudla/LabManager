@@ -17,7 +17,7 @@ public class Cabinet {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String cabiinetName;
+    private String cabinetName;
     @ManyToOne
     @JoinColumn(name="lab_id")
     private Laboratory laboratory;
@@ -29,7 +29,15 @@ public class Cabinet {
 
     @JsonIgnore
     public String getCabinetString() {
-        return this.laboratory.getLaboratoryName() + " - " + this.cabiinetName;
+        return this.laboratory.getLaboratoryName() + " - " + this.cabinetName;
+    }
+
+    public CabinetDTO getDTO() {
+        CabinetDTO returnedDto = new CabinetDTO();
+        returnedDto.setCabinetName(this.getCabinetName());
+        returnedDto.setLaboratory(this.getLaboratory().getLabDTO());
+        returnedDto.setUuid(this.getUuid().toString());
+        return returnedDto;
     }
 
 
