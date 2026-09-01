@@ -10,4 +10,6 @@ public class LabManagerApplication {
         SpringApplication.run(LabManagerApplication.class, args);
     }
 
+    public static String photosPath = "src/main/resources/static/images";
+
 }
