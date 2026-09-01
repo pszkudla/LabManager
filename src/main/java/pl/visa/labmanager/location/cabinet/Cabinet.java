@@ -29,14 +29,14 @@ public class Cabinet {
 
     @JsonIgnore
     public String getCabinetString() {
-        return this.laboratory.getLaboratoryName() + " - " + this.cabinetName;
+        return this.laboratory.getLaboratoryString() + " - " + this.cabinetName;
     }
 
     public CabinetDTO getDTO() {
         CabinetDTO returnedDto = new CabinetDTO();
         returnedDto.setCabinetName(this.getCabinetName());
-        returnedDto.setLaboratory(this.getLaboratory().getLabDTO());
         returnedDto.setUuid(this.getUuid().toString());
+        returnedDto.setCabinetString(this.getCabinetString());
         return returnedDto;
     }
 
