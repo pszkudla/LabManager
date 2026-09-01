@@ -41,4 +41,16 @@ public class Substance {
             return null;
         }
     }
+
+
+
+    public SubstanceDTO getDTOFromSubstance() {
+        SubstanceDTO returnedDto = new SubstanceDTO();
+        returnedDto.setCasNumber(this.getCasNumber());
+        returnedDto.setIupacName(this.getIupacName());
+        returnedDto.setSmarts(this.getSmarts());
+        returnedDto.setSmiles(this.getSmiles());
+        returnedDto.setUuid(this.getUuid());
+        return returnedDto;
+    }
 }
