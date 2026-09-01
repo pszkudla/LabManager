@@ -13,6 +13,6 @@ import java.util.UUID;
 @Setter
 public class ShelfDTO {
     private String shelfName;
-    private CabinetDTO cabinetDTO;
     private String uuid;
+    private String shelfString;
 }
