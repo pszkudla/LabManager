@@ -20,7 +20,7 @@ public class CabinetService {
 
     public void addCabinet(Cabinet cabinet) {
         Cabinet cabinetToAdd = new Cabinet();
-        cabinetToAdd.setCabiinetName(cabinet.getCabiinetName());
+        cabinetToAdd.setCabinetName(cabinet.getCabinetName());
         cabinetToAdd.setLaboratory(cabinet.getLaboratory());
         cabinetRepository.save(cabinetToAdd);
     }
