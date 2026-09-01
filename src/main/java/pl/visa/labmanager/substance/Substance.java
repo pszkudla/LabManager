@@ -12,6 +12,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Optional;
+import java.util.Set;
 
 
 @Entity
@@ -30,6 +31,13 @@ public class Substance {
     private String smiles;
     private String smarts;
     public String uuid;
+
+    @ElementCollection
+    @CollectionTable(
+            name="alt_substance_names",
+            joinColumns = @JoinColumn(name="substance_id")
+    )
+    private Set<AlternativeSubstanceName> alternativeNames;
 
     @JsonProperty
     public String photoDir() {
