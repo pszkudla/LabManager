@@ -1,0 +1,184 @@
+POST http://localhost:8080/cabinet/
+Content-Type: application/json
+
+{
+  "labUuid": "c04fe38a-0e1e-4dc1-8039-63859c7f5744",
+  "cabinetName": "1"
+}
+
+
+###
+
+POST http://localhost:8080/cabinet/
+Content-Type: application/json
+
+{
+"cabinetName": "A",
+"labUuid": "c04fe38a-0e1e-4dc1-8039-63859c7f5744"
+}
+
+###
+
+POST http://localhost:8080/cabinet/
+Content-Type: application/json
+
+{
+  "cabinetName": "B",
+  "labUuid": "c04fe38a-0e1e-4dc1-8039-63859c7f5744"
+}
+
+###
+
+POST http://localhost:8080/cabinet/
+Content-Type: application/json
+
+{
+  "cabinetName": "C",
+  "labUuid": "c04fe38a-0e1e-4dc1-8039-63859c7f5744"
+}
+
+###
+
+POST http://localhost:8080/cabinet/
+Content-Type: application/json
+
+{
+  "cabinetName": "D",
+  "labUuid": "c04fe38a-0e1e-4dc1-8039-63859c7f5744"
+}
+
+
+
+
+
+###
+
+POST http://localhost:8080/cabinet/
+Content-Type: application/json
+
+{
+  "cabinetName": "A",
+  "labUuid": "d590a794-f743-4c03-9d76-95fc229bbd74"
+}
+
+
+
+###
+
+POST http://localhost:8080/cabinet/
+Content-Type: application/json
+
+{
+  "cabinetName": "B",
+  "labUuid": "d590a794-f743-4c03-9d76-95fc229bbd74"
+}
+
+
+
+###
+
+POST http://localhost:8080/cabinet/
+Content-Type: application/json
+
+{
+  "cabinetName": "C",
+  "labUuid": "d590a794-f743-4c03-9d76-95fc229bbd74"
+}
+
+
+
+###
+
+POST http://localhost:8080/cabinet/
+Content-Type: application/json
+
+{
+  "cabinetName": "D",
+  "labUuid": "d590a794-f743-4c03-9d76-95fc229bbd74"
+}
+
+
+###
+
+POST http://localhost:8080/cabinet/
+Content-Type: application/json
+
+{
+  "cabinetName": "A",
+  "labUuid": "bd68dc45-824a-4077-874c-4c2d0d50f4e8"
+}
+
+
+###
+
+POST http://localhost:8080/cabinet/
+Content-Type: application/json
+
+{
+  "cabinetName": "B",
+  "labUuid": "bd68dc45-824a-4077-874c-4c2d0d50f4e8"
+}
+
+###
+
+POST http://localhost:8080/cabinet/
+Content-Type: application/json
+
+{
+  "cabinetName": "C",
+  "labUuid": "bd68dc45-824a-4077-874c-4c2d0d50f4e8"
+}
+
+###
+
+POST http://localhost:8080/cabinet/
+Content-Type: application/json
+
+{
+  "cabinetName": "D",
+  "labUuid": "bd68dc45-824a-4077-874c-4c2d0d50f4e8"
+}
+
+//"a6e4d123-3203-4d58-9101-17409ab47e4b"
+
+
+###
+
+POST http://localhost:8080/cabinet/
+Content-Type: application/json
+
+{
+  "cabinetName": "A",
+  "labUuid": "a6e4d123-3203-4d58-9101-17409ab47e4b"
+}
+
+
+###
+
+POST http://localhost:8080/cabinet/
+Content-Type: application/json
+
+{
+  "cabinetName": "B",
+  "labUuid": "a6e4d123-3203-4d58-9101-17409ab47e4b"
+}
+
+###
+
+POST http://localhost:8080/cabinet/
+Content-Type: application/json
+
+{
+  "cabinetName": "C",
+  "labUuid": "a6e4d123-3203-4d58-9101-17409ab47e4b"
+}
+
+###
+
+POST http://localhost:8080/cabinet/
+Content-Type: application/json
+
+{
+  "cabinetName": "D",
+  "labUuid": "a6e4d123-3203-4d58-9101-17409ab47e4b"
+}

@@ -1,0 +1,37 @@
+POST http://localhost:8080/lab/
+Content-Type: application/json
+
+{
+  "laboratoryName": "Glovebox Lab"
+}
+
+
+
+###
+
+POST http://localhost:8080/lab/
+Content-Type: application/json
+
+{
+  "laboratoryName": "Wet lab"
+}
+
+
+###
+
+
+POST http://localhost:8080/lab/
+Content-Type: application/json
+
+{
+  "laboratoryName": "F lab"
+}
+
+###
+
+POST http://localhost:8080/lab/
+Content-Type: application/json
+
+{
+  "laboratoryName": "Nanoparticles lab"
+}

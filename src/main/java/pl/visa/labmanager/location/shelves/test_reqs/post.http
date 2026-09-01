@@ -1,0 +1,99 @@
+
+
+
+POST http://localhost:8080/shelf/
+Content-Type: application/json
+
+{
+  "cabinetUuid": "ead404c1-2c33-4fd4-8a76-fff8c46da6cc",
+  "shelfName": "1"
+}
+
+
+###
+
+
+POST http://localhost:8080/shelf/
+Content-Type: application/json
+
+{
+  "cabinetUuid": "ead404c1-2c33-4fd4-8a76-fff8c46da6cc",
+  "shelfName": "2"
+}
+
+
+###
+
+
+POST http://localhost:8080/shelf/
+Content-Type: application/json
+
+{
+  "cabinetUuid": "ead404c1-2c33-4fd4-8a76-fff8c46da6cc",
+  "shelfName": "3"
+}
+
+
+###
+
+
+
+POST http://localhost:8080/shelf/
+Content-Type: application/json
+
+{
+  "cabinetUuid": "ead404c1-2c33-4fd4-8a76-fff8c46da6cc",
+  "shelfName": "4"
+}
+
+
+
+#########
+
+POST http://localhost:8080/shelf/
+Content-Type: application/json
+
+{
+  "cabinetUuid": "ead404c1-2c33-4fd4-8a76-fff8c46da6cc",
+  "shelfName": "1"
+}
+
+
+###
+
+
+POST http://localhost:8080/shelf/
+Content-Type: application/json
+
+{
+  "cabinetUuid": "ead404c1-2c33-4fd4-8a76-fff8c46da6cc",
+  "shelfName": "2"
+}
+
+
+###
+
+
+POST http://localhost:8080/shelf/
+Content-Type: application/json
+
+{
+  "cabinetUuid": "ead404c1-2c33-4fd4-8a76-fff8c46da6cc",
+  "shelfName": "3"
+}
+
+
+###
+
+
+
+POST http://localhost:8080/shelf/
+Content-Type: application/json
+
+{
+  "cabinetUuid": "ead404c1-2c33-4fd4-8a76-fff8c46da6cc",
+  "shelfName": "4"
+}
+
+
+###
