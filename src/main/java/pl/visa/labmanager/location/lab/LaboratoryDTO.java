@@ -11,5 +11,7 @@ import java.util.UUID;
 @NoArgsConstructor
 public class LaboratoryDTO {
     private String laboratoryName;
+    private String roomNumber;
     private String uuid;
+    private String laboratoryString;
 }
