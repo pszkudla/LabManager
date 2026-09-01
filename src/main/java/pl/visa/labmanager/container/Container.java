@@ -3,7 +3,7 @@ package pl.visa.labmanager.container;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import pl.visa.labmanager.location.Zone;
+import pl.visa.labmanager.location.zone.Zone;
 import pl.visa.labmanager.substance.Substance;
 
 @Entity
