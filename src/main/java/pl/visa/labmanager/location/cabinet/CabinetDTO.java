@@ -12,6 +12,6 @@ import pl.visa.labmanager.location.lab.LaboratoryDTO;
 public class CabinetDTO {
 
     private String cabinetName;
-    private LaboratoryDTO laboratory;
     private String uuid;
+    private String cabinetString;
 }
