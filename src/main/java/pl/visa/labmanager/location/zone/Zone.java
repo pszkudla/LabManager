@@ -26,4 +26,12 @@ public class Zone {
     @UuidGenerator
     @Column(nullable = false, unique = true, updatable = false)
     private UUID uuid;
+
+    public ZoneDTO getDto() {
+        ZoneDTO returnedDto = new ZoneDTO();
+        returnedDto.setShelfDto(this.getShelf().getShelfDTO());
+        returnedDto.setUuid(this.getUuid().toString());
+        returnedDto.setZoneName(this.getZoneName());
+        return returnedDto;
+    }
 }
