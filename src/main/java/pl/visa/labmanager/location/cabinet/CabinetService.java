@@ -18,6 +18,10 @@ public class CabinetService {
         return this.cabinetRepository.findAll();
     }
 
+    public Optional<Cabinet> findCabinetByUuid(UUID uuid) {
+        return cabinetRepository.getCabinetByUuid(uuid);
+    };
+
     public void addCabinet(Cabinet cabinet) {
         Cabinet cabinetToAdd = new Cabinet();
         cabinetToAdd.setCabinetName(cabinet.getCabinetName());
@@ -25,7 +29,15 @@ public class CabinetService {
         cabinetRepository.save(cabinetToAdd);
     }
 
-    public Optional<Cabinet> getByUuid(UUID uuid) {
-        return cabinetRepository.getCabinetByUuid(uuid);
+    public Optional<CabinetDTO> getDtoByUuid(UUID uuid) {
+        return cabinetRepository.getCabinetByUuid(uuid).map(Cabinet::getDTO);
+    }
+
+    public Optional<Cabinet> deleteByUuid(UUID uuid) {
+        Optional<Cabinet> cabinet = cabinetRepository.getCabinetByUuid(uuid);
+        if (cabinet.isPresent()) {
+            cabinetRepository.delete(cabinet.get());
+        }
+        return cabinet;
     }
 }
