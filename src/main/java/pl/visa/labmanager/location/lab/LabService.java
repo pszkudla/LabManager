@@ -1,10 +1,8 @@
 package pl.visa.labmanager.location.lab;
 
 import org.springframework.stereotype.Service;
-import pl.visa.labmanager.errors.LabNotFoundExcepition;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
