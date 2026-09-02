@@ -3,8 +3,6 @@ package pl.visa.labmanager.location.shelves;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pl.visa.labmanager.errors.CabinetNotFoundError;
-import pl.visa.labmanager.errors.ShelfNotFoundError;
 import pl.visa.labmanager.location.cabinet.Cabinet;
 import pl.visa.labmanager.location.cabinet.CabinetService;
 
@@ -55,14 +53,9 @@ public class ShelvesController {
 
     @PutMapping("/")
     public ResponseEntity editShelf(@RequestBody ShelfDtoIn shelfPostDTO) {
-        try {
             ShelfDtoOut shelfDto = shelvesService.updateShelf(shelfPostDTO);
             return ResponseEntity.status(HttpStatus.OK).body(shelfDto);
-        } catch (ShelfNotFoundError snfe) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(snfe.getMessage());
-        } catch (CabinetNotFoundError cnfe) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(cnfe.getMessage());
-        }
+
     }
 
     @DeleteMapping("/{uuid}")
