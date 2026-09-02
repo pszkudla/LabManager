@@ -27,11 +27,16 @@ public class Zone {
     @Column(nullable = false, unique = true, updatable = false)
     private UUID uuid;
 
-    public ZoneDTO getDto() {
-        ZoneDTO returnedDto = new ZoneDTO();
-        returnedDto.setShelfDto(this.getShelf().getShelfDTO());
+    public String getZoneString() {
+        return this.getShelf().getShelfString() + " - " + this.zoneName;
+    }
+
+
+    public ZoneDtoOut getDto() {
+        ZoneDtoOut returnedDto = new ZoneDtoOut();
         returnedDto.setUuid(this.getUuid().toString());
         returnedDto.setZoneName(this.getZoneName());
+        returnedDto.setZoneString(this.getZoneString());
         return returnedDto;
     }
 }
