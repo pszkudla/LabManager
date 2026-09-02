@@ -34,3 +34,8 @@ build/
 .env
 src/main/java/pl/visa/labmanager/CsvFilesParser/DbLogDetails.java
 src/main/resources/SubstancesFileToParse.csv
+src/main/java/pl/visa/labmanager/container/test_reqs/test.http
+src/main/java/pl/visa/labmanager/substance/test_reqs/addAltName.http
+src/main/java/pl/visa/labmanager/location/zone/test_reqs/post.http
+src/main/java/pl/visa/labmanager/location/lab/test_reqs/delete.http
+src/main/java/pl/visa/labmanager/substance/test_reqs/addAltName.http
