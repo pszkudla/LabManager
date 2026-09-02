@@ -36,8 +36,8 @@ public class Container {
     private UUID uuid;
 
     @JsonIgnore
-    public ContainerDTO getDto() {
-        ContainerDTO returnedDto = new ContainerDTO();
+    public ContainerDtoOut getDtoOut() {
+        ContainerDtoOut returnedDto = new ContainerDtoOut();
         returnedDto.setCapacity(this.getCapacity());
         returnedDto.setNotes(this.getNotes());
         returnedDto.setSubstanceDto(this.getSubstance().getDTOFromSubstance());
