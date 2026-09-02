@@ -10,4 +10,5 @@ public interface LabRepository extends JpaRepository<Laboratory, Long> {
 
     @Query("select l from Laboratory  l WHERE uuid = ?1")
     public Optional<Laboratory> getLabFromUuid(UUID uuid);
+
 }
