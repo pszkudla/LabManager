@@ -1,8 +1,7 @@
 package pl.visa.labmanager.location.zone;
 
 import org.springframework.stereotype.Service;
-import pl.visa.labmanager.errors.ShelfNotFoundError;
-import pl.visa.labmanager.errors.ZoneNotFoundError;
+import pl.visa.labmanager.errors.ResourceNotFoundException;
 import pl.visa.labmanager.location.shelves.Shelf;
 import pl.visa.labmanager.location.shelves.ShelvesRepository;
 
@@ -26,7 +25,7 @@ public class ZoneService {
 
     public ZoneDtoOut getZoneDtoById(UUID uuid) {
         Zone zone = zoneRepository.findByUuid(uuid).orElseThrow(() -> {
-            throw new ZoneNotFoundError("Strefa o podanym UUID nie istnieje.");
+            throw new ResourceNotFoundException("Strefa o podanym UUID nie istnieje.");
         });
         return zone.getDto();
     }
@@ -42,18 +41,18 @@ public class ZoneService {
 
     public void deleteZoneByUuid(UUID uuid) {
         Zone zone = zoneRepository.findByUuid(uuid).orElseThrow(() -> {
-            throw new ZoneNotFoundError("Nie znaleziono strefy o UUID równym %s przy próbie usuwania.".formatted(uuid));
+            throw new ResourceNotFoundException("Nie znaleziono strefy o UUID równym %s przy próbie usuwania.".formatted(uuid));
         });
         zoneRepository.delete(zone);
     }
 
     public Zone editZone(ZoneDtoIn dto) {
         Shelf shelf = shelvesRepository.getShelfByUuid(dto.getShelfUuid()).orElseThrow(() -> {
-            throw new ShelfNotFoundError("Nie znaleziono półki o podanym UUID podczas próby edycji strefy.");
+            throw new ResourceNotFoundException("Nie znaleziono półki o podanym UUID podczas próby edycji strefy.");
         });
 
         Zone zone = zoneRepository.findByUuid(dto.getUuid()).orElseThrow(() -> {
-            throw new ZoneNotFoundError("Nie odnaleziono strefy o podany UUID podczas próby edycji strefy.");
+            throw new ResourceNotFoundException("Nie odnaleziono strefy o podany UUID podczas próby edycji strefy.");
         });
 
         zone.setShelf(shelf);
