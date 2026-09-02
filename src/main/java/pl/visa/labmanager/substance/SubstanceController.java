@@ -1,11 +1,10 @@
 package pl.visa.labmanager.substance;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RequestMapping("/substances")
 @RestController
@@ -33,6 +32,14 @@ public class SubstanceController {
         return substanceService.getSubstancesByCasFragment(casSubstring);
     }
 
-
-
+    @PostMapping("/addAltName")
+    public ResponseEntity addAltName(@RequestBody Map<String, String> map) {
+        String language = map.get("language");
+        String newAltName = map.get("name");
+        String uuid = map.get("uuid");
+        AlternativeSubstanceName asn = new AlternativeSubstanceName();
+        asn.setName(newAltName);
+        asn.setLanguage(language);
+        return ResponseEntity.ok(substanceService.addAlternativeName(uuid, asn));
+    }
 }

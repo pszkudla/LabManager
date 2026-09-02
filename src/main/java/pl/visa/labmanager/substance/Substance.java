@@ -39,6 +39,11 @@ public class Substance {
     )
     private Set<AlternativeSubstanceName> alternativeNames;
 
+    public void addAlternativeName(AlternativeSubstanceName altName) {
+        System.out.println("Dodaję alternatywną nazwę: %s".formatted(altName));
+        this.getAlternativeNames().add(altName);
+    }
+
     @JsonProperty
     public String photoDir() {
         Path photoPath = Paths.get(LabManagerApplication.photosPath, uuid + ".png");

@@ -5,6 +5,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Repository
 public interface SubstanceRepository extends JpaRepository<Substance, Long> {
@@ -18,5 +20,7 @@ public interface SubstanceRepository extends JpaRepository<Substance, Long> {
 
     @Query("select s from Substance s where s.casNumber LIKE %:casFragment%")
     List<Substance> getSubstancesByCasFragment(String casFragment);
+
+    public Optional<Substance> findByUuid(String uuid);
 
 }
