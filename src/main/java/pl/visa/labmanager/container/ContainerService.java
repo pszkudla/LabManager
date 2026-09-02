@@ -1,8 +1,17 @@
 package pl.visa.labmanager.container;
 
 import org.springframework.stereotype.Service;
+import pl.visa.labmanager.errors.ContainerNotFoundError;
+import pl.visa.labmanager.errors.SubstanceNotFoundError;
+import pl.visa.labmanager.errors.ZoneNotFoundError;
+import pl.visa.labmanager.location.zone.Zone;
 import pl.visa.labmanager.location.zone.ZoneRepository;
+import pl.visa.labmanager.location.zone.ZoneService;
+import pl.visa.labmanager.substance.Substance;
+import pl.visa.labmanager.substance.SubstanceRepository;
+import pl.visa.labmanager.substance.SubstanceService;
 
+import java.time.zone.ZoneRulesException;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -10,9 +19,15 @@ import java.util.UUID;
 @Service
 public class ContainerService {
     private final ContainerRepository containerRepository;
+    private final ZoneService zoneService;
+    private final SubstanceRepository substanceRepository;
+    private final SubstanceService substanceService;
 
-    public ContainerService(ContainerRepository containerRepository, ZoneRepository zoneRepository) {
+    public ContainerService(ContainerRepository containerRepository, ZoneRepository zoneRepository, ZoneService zoneService, SubstanceRepository substanceRepository, SubstanceService substanceService) {
         this.containerRepository = containerRepository;
+        this.zoneService = zoneService;
+        this.substanceRepository = substanceRepository;
+        this.substanceService = substanceService;
     }
 
     public List<Container> getAllContainers() {
@@ -25,14 +40,7 @@ public class ContainerService {
     }
 
 
-    public void addContainer(Container container) {
-        Container addedContainer = new Container();
-        addedContainer.setCapacity(container.getCapacity());
-        addedContainer.setNotes(container.getNotes());
-        addedContainer.setSubstance(container.getSubstance());
-        addedContainer.setZone(container.getZone());
-        containerRepository.save(addedContainer);
-    }
+
 
     public String deleteByUuid(String uuid) {
         UUID containerUuid = UUID.fromString(uuid);
@@ -43,6 +51,32 @@ public class ContainerService {
         } else {
             return "Pojemnik o podanym uuid (%s) nie istnieje.".formatted(uuid);
         }
+    }
+
+    public ContainerDtoOut createContainer(ContainerDtoIn containerToCreate) {
+        Zone zone = zoneService.getZoneByUuid(containerToCreate.getZoneUuid())
+                .orElseThrow(
+                        () -> new ZoneNotFoundError("Nie znaleziono strefy o UUID równym %s.".formatted(containerToCreate.getZoneUuid()))
+                );
+        Substance substance = substanceRepository.findByUuid(containerToCreate.getSubstanceUuid())
+                .orElseThrow(
+                        () -> new SubstanceNotFoundError("Nie znaleziono substancji o UUID równym %s.".formatted(containerToCreate.getSubstanceUuid()))
+                );
+        Container container = new Container();
+        container.setZone(zone);
+        container.setSubstance(substance);
+        container.setNotes(containerToCreate.getNotes());
+        container.setCapacity(containerToCreate.getCapacity());
+
+        return containerRepository.save(container).getDtoOut();
+    }
+
+
+    public ContainerDtoOut getContainerByUuid(UUID uuid) {
+        Container container = containerRepository.findContainerByUuid(uuid).orElseThrow(() -> {
+            throw  new ContainerNotFoundError("Nie znaleziono pojemnika o UUID równym %s.".formatted(uuid));
+        });
+        return container.getDtoOut();
     }
 
 
