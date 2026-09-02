@@ -8,4 +8,6 @@ import java.util.UUID;
 
 public interface ShelvesRepository extends JpaRepository<Shelf, Long> {
     public Optional<Shelf> getShelfByUuid(UUID uuid);
+
+
 }
