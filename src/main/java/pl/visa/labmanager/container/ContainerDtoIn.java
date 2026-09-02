@@ -15,4 +15,5 @@ public class ContainerDtoIn {
     private String capacity;
     private String notes;
     private UUID zoneUuid;
+    private UUID uuid;
 }

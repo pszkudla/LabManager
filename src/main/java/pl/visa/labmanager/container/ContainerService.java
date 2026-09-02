@@ -1,9 +1,7 @@
 package pl.visa.labmanager.container;
 
 import org.springframework.stereotype.Service;
-import pl.visa.labmanager.errors.ContainerNotFoundError;
-import pl.visa.labmanager.errors.SubstanceNotFoundError;
-import pl.visa.labmanager.errors.ZoneNotFoundError;
+import pl.visa.labmanager.errors.ResourceNotFoundException;
 import pl.visa.labmanager.location.zone.Zone;
 import pl.visa.labmanager.location.zone.ZoneRepository;
 import pl.visa.labmanager.location.zone.ZoneService;
@@ -11,7 +9,6 @@ import pl.visa.labmanager.substance.Substance;
 import pl.visa.labmanager.substance.SubstanceRepository;
 import pl.visa.labmanager.substance.SubstanceService;
 
-import java.time.zone.ZoneRulesException;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -39,28 +36,22 @@ public class ContainerService {
         return optContainer;
     }
 
+    public void deleteByUuid(UUID uuid) {
 
-
-
-    public String deleteByUuid(String uuid) {
-        UUID containerUuid = UUID.fromString(uuid);
-        Optional<Container> containerToDelete = containerRepository.findContainerByUuid(containerUuid);
-        if (containerToDelete.isPresent()) {
-            containerRepository.delete(containerToDelete.get());
-            return "Udało się usunąć pojemnik o uuid = %s.".formatted(uuid);
-        } else {
-            return "Pojemnik o podanym uuid (%s) nie istnieje.".formatted(uuid);
-        }
+        Container containerToDelete = containerRepository
+                .findContainerByUuid(uuid)
+                .orElseThrow(() -> new ResourceNotFoundException("Nie znaleziono pojemnika o UUID równym %s.".formatted(uuid)));
+        containerRepository.delete(containerToDelete);
     }
 
     public ContainerDtoOut createContainer(ContainerDtoIn containerToCreate) {
         Zone zone = zoneService.getZoneByUuid(containerToCreate.getZoneUuid())
                 .orElseThrow(
-                        () -> new ZoneNotFoundError("Nie znaleziono strefy o UUID równym %s.".formatted(containerToCreate.getZoneUuid()))
+                        () -> new ResourceNotFoundException("Nie znaleziono strefy o UUID równym %s.".formatted(containerToCreate.getZoneUuid()))
                 );
         Substance substance = substanceRepository.findByUuid(containerToCreate.getSubstanceUuid())
                 .orElseThrow(
-                        () -> new SubstanceNotFoundError("Nie znaleziono substancji o UUID równym %s.".formatted(containerToCreate.getSubstanceUuid()))
+                        () -> new ResourceNotFoundException("Nie znaleziono substancji o UUID równym %s.".formatted(containerToCreate.getSubstanceUuid()))
                 );
         Container container = new Container();
         container.setZone(zone);
@@ -74,8 +65,26 @@ public class ContainerService {
 
     public ContainerDtoOut getContainerByUuid(UUID uuid) {
         Container container = containerRepository.findContainerByUuid(uuid).orElseThrow(() -> {
-            throw  new ContainerNotFoundError("Nie znaleziono pojemnika o UUID równym %s.".formatted(uuid));
+            throw  new ResourceNotFoundException("Nie znaleziono pojemnika o UUID równym %s.".formatted(uuid));
         });
+        return container.getDtoOut();
+    }
+
+    public ContainerDtoOut editContainer(ContainerDtoIn dtoIn) {
+        Container container = containerRepository
+                .findContainerByUuid(dtoIn.getUuid())
+                .orElseThrow(() -> new ResourceNotFoundException("Nie znaleziono pojemnika o UUID = %s.".formatted(dtoIn.getUuid())));
+        Substance substance = substanceRepository
+                .findByUuid(dtoIn.getSubstanceUuid())
+                .orElseThrow(() -> new ResourceNotFoundException("Nie znalazłem substancji o UUID równym %s.".formatted(dtoIn.getSubstanceUuid())));
+        Zone zone = zoneService
+                .getZoneByUuid(dtoIn.getZoneUuid())
+                .orElseThrow(() -> new ResourceNotFoundException("Nie odnaleziono strefy o UUID równym %s.".formatted(dtoIn.getZoneUuid())));
+        container.setCapacity(dtoIn.getCapacity());
+        container.setNotes(dtoIn.getNotes());
+        container.setSubstance(substance);
+        container.setZone(zone);
+        containerRepository.save(container);
         return container.getDtoOut();
     }
 

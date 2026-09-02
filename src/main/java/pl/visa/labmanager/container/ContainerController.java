@@ -39,5 +39,21 @@ public class ContainerController {
         return ResponseEntity.status(HttpStatus.OK).body(containerDTO);
     }
 
+    @PutMapping("/")
+    public ResponseEntity editContainer(@RequestBody ContainerDtoIn dtoIn) {
+        ContainerDtoOut dtoOut = containerService.editContainer(dtoIn);
+        return ResponseEntity.ok().body(dtoOut);
+    }
+
+    @DeleteMapping("/{uuid}")
+    public ResponseEntity deleteContainer(@PathVariable(name="uuid") UUID uuid) {
+        containerService.deleteByUuid(uuid);
+        return ResponseEntity.status(HttpStatus.OK).body("Pomyśnie usunięto pojemnik o UUID = %s.".formatted(uuid));
+    }
+
+
+
+
+
 
 }
