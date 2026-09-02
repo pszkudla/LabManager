@@ -5,22 +5,20 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pl.visa.labmanager.location.shelves.Shelf;
-import pl.visa.labmanager.location.shelves.ShelvesRepository;
 import pl.visa.labmanager.location.shelves.ShelvesService;
 
 import java.util.List;
 import java.util.Random;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/zoneCreator")
-public class ZoneCreator {
+public class ZonesCreator {
     private final ZoneService zoneService;
     private final ShelvesService shelvesService;
     private final Random random = new Random();
     private final String alphabetString = "abcdefghijklmnopqrstuvwxyz";
 
-    public ZoneCreator(ZoneService zoneService, ShelvesService shelvesService) {
+    public ZonesCreator(ZoneService zoneService, ShelvesService shelvesService) {
         this.shelvesService = shelvesService;
         this.zoneService = zoneService;
     }
