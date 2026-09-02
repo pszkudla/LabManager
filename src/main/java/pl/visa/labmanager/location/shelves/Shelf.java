@@ -25,15 +25,16 @@ public class Shelf {
     @Column(nullable = false, unique = true, updatable = false)
     private UUID uuid;
 
-    private String getCabinetString() {
+
+    public String getShelfString() {
         return "%s - %s".formatted(this.getCabinet().getCabinetString(), this.getShelfName());
     }
 
-    public ShelfDTO getShelfDTO() {
-        ShelfDTO returnedDto = new ShelfDTO();
+    public ShelfDtoOut getShelfDTO() {
+        ShelfDtoOut returnedDto = new ShelfDtoOut();
         returnedDto.setShelfName(this.getShelfName());
         returnedDto.setUuid(this.getUuid().toString());
-        returnedDto.setShelfName(this.getCabinetString());
+        returnedDto.setShelfString(this.getShelfString());
         return returnedDto;
     }
 }
