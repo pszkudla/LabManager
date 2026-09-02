@@ -1,10 +1,8 @@
 package pl.visa.labmanager.location.zone;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pl.visa.labmanager.location.shelves.Shelf;
 import pl.visa.labmanager.location.shelves.ShelvesService;
 
@@ -26,9 +24,14 @@ public class ZoneController {
         this.zoneRepository = zoneRepository;
     }
 
-    @GetMapping("/")
+    @GetMapping("/all")
     public ResponseEntity getAllZones() {
         return ResponseEntity.ok().body(zoneService.getAllZones());
+    }
+
+    @GetMapping("/{uuid}")
+    public ResponseEntity getZoneById(@PathVariable(name="uuid") UUID uuid) {
+        return ResponseEntity.status(HttpStatus.OK).body(zoneService.getZoneDtoById(uuid));
     }
 
     @PostMapping("/")
@@ -50,6 +53,17 @@ public class ZoneController {
         } else {
             return ResponseEntity.badRequest().body("Natrafiono na nieznany błąd.");
         }
+    }
+
+    @PutMapping("/")
+    public ResponseEntity updateZone(@RequestBody ZoneDtoIn dtoIn) {
+         return ResponseEntity.ok().body(zoneService.editZone(dtoIn));
+    }
+
+    @DeleteMapping("/{uuid}")
+    public ResponseEntity deleteZone(@PathVariable(name="uuid") UUID uuid) {
+        zoneService.deleteZoneByUuid(uuid);
+        return ResponseEntity.ok("Usunięto strefę o UUID równym %s.".formatted(uuid));
     }
 
 }
