@@ -4,12 +4,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import pl.visa.labmanager.location.lab.LaboratoryDTO;
-
 @NoArgsConstructor
 @Setter
 @Getter
-public class CabinetDTO {
+public class CabinetDtoOut {
 
     private String cabinetName;
     private String uuid;
