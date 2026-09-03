@@ -23,8 +23,8 @@ public class ShelvesCreator {
         this.cabinetService = cabinetService;
     }
 
-    @GetMapping("/allCabinets/{numberOfShelves}")
-    public void createAllCabinets(@PathVariable(name="numberOfShelves") int numberOfShelves) {
+    @PostMapping("/allCabinets/{numberOfShelves}")
+    public void createInAllCabinets(@PathVariable(name="numberOfShelves") int numberOfShelves) {
         List<Cabinet> allCabinets = cabinetService.getAllCabinets();
 
         for (Cabinet cabinet : allCabinets) {
