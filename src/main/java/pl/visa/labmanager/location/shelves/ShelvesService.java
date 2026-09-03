@@ -2,8 +2,7 @@ package pl.visa.labmanager.location.shelves;
 
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
-import pl.visa.labmanager.errors.CabinetNotFoundError;
-import pl.visa.labmanager.errors.ShelfNotFoundError;
+import pl.visa.labmanager.errors.ResourceNotFoundException;
 import pl.visa.labmanager.location.cabinet.Cabinet;
 import pl.visa.labmanager.location.cabinet.CabinetRepository;
 
@@ -40,7 +39,7 @@ public class ShelvesService {
         if (optShelf.isPresent()) {
             return Optional.of(optShelf.get().getShelfDTO());
         } else {
-            throw  new ShelfNotFoundError("Nie znaleziono półki o UUID = %s".formatted(uuid));
+            throw  new ResourceNotFoundException("Nie znaleziono półki o UUID = %s".formatted(uuid));
         }
     }
 
@@ -49,21 +48,20 @@ public class ShelvesService {
     }
 
     public ShelfDtoOut updateShelf(ShelfDtoIn shelfPostDto) {
-        Optional<Shelf> optShelfToEdit = shelvesRepository.getShelfByUuid(shelfPostDto.getUuid());
-        Optional<Cabinet> optCabinet = cabinetRepository.getCabinetByUuid(shelfPostDto.getCabinetUuid());
-        if (optCabinet.isEmpty()) {
-            throw new CabinetNotFoundError("Nie znaleziono  szafki o uuid = %s.".formatted(shelfPostDto.getCabinetUuid()));
-        } else if (optShelfToEdit.isEmpty()) {
-            throw new ShelfNotFoundError("Nie znaleziono półki o id = %s.".formatted(shelfPostDto.getUuid()));
-        } else {
-            Cabinet cabinetToAdd = optCabinet.get();
-            Shelf shelfToEdit = optShelfToEdit.get();
-            shelfToEdit.setUuid(shelfPostDto.getUuid());
-            shelfToEdit.setCabinet(cabinetToAdd);
-            shelfToEdit.setShelfName(shelfPostDto.getShelfName());
-            shelvesRepository.save(shelfToEdit);
-            return shelfToEdit.getShelfDTO();
-        }
+        Shelf shelf = shelvesRepository
+                .getShelfByUuid(shelfPostDto.getUuid())
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Nie odnalziono półki o UUID równym %s.".formatted(shelfPostDto.getUuid()))
+                );
+        Cabinet cabinet = cabinetRepository
+                .getCabinetByUuid(shelfPostDto.getCabinetUuid())
+                .orElseThrow(() ->
+                    new ResourceNotFoundException("Nie znaleziono szafki o UUID = %s.".formatted(shelfPostDto.getCabinetUuid()))
+                );
+        shelf.setCabinet(cabinet);
+        shelf.setShelfName(shelfPostDto.getShelfName());
+        shelvesRepository.save(shelf);
+        return shelf.getShelfDTO();
     }
 
     public Optional<Shelf> deleteShelfByUuid(UUID uuid) {
