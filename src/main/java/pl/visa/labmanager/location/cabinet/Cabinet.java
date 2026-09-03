@@ -32,8 +32,8 @@ public class Cabinet {
         return this.laboratory.getLaboratoryString() + " - " + this.cabinetName;
     }
 
-    public CabinetDTO getDTO() {
-        CabinetDTO returnedDto = new CabinetDTO();
+    public CabinetDtoOut getDtoOut() {
+        CabinetDtoOut returnedDto = new CabinetDtoOut();
         returnedDto.setCabinetName(this.getCabinetName());
         returnedDto.setUuid(this.getUuid().toString());
         returnedDto.setCabinetString(this.getCabinetString());
