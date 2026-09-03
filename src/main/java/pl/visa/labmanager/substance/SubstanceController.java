@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @RequestMapping("/substances")
 @RestController
@@ -30,6 +31,11 @@ public class SubstanceController {
     public List<Substance> getByCasFragment(@PathVariable(name="casSubs") String casSubstring) {
         System.out.println(casSubstring);
         return substanceService.getSubstancesByCasFragment(casSubstring);
+    }
+
+    @DeleteMapping("/{uuid}")
+    public void deleteByUuid(@PathVariable(name="uuid") String uuid) {
+        substanceService.deleteSubstance(uuid);
     }
 
     @PostMapping("/addAltName")

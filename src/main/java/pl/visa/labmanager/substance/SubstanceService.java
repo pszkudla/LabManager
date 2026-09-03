@@ -1,9 +1,9 @@
 package pl.visa.labmanager.substance;
 
 import org.springframework.stereotype.Service;
+import pl.visa.labmanager.errors.ResourceNotFoundException;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class SubstanceService {
@@ -26,16 +26,20 @@ public class SubstanceService {
         return substanceRepository.getSubstancesByCasFragment(casSubs);
     }
 
-    public String addAlternativeName(String uuid, AlternativeSubstanceName asn) {
-        Optional<Substance> substOpt = substanceRepository.findByUuid(uuid);
-        if (substOpt.isPresent()) {
-            Substance substance = substOpt.get();
-            substance.addAlternativeName(asn);
-            String iupacName = substance.getIupacName();
-            substanceRepository.save(substance);
-            return "Do %s dodano alternatywną nazwę - %s.".formatted(iupacName, asn.getName());
-        } else {
-            return "Nie udało się dodać alternatywnej nazwy.";
-        }
+    public AlternativeSubstanceName addAlternativeName(String uuid, AlternativeSubstanceName asn) {
+        Substance subs = substanceRepository.findByUuid(uuid)
+                .orElseThrow(() -> new ResourceNotFoundException("Nie odnaleziono substancki o UUID równym %s.".formatted(uuid))
+                );
+        subs.addAlternativeName(asn);
+        substanceRepository.save(subs);
+        return asn;
+    }
+
+
+    public void deleteSubstance(String uuid) {
+        Substance substance = substanceRepository.findByUuid(uuid).orElseThrow(() ->
+                new ResourceNotFoundException("Nie znaleziono substancji o UUID = %s przy próbie usuwania substancji.".formatted(uuid))
+        );
+        substanceRepository.delete(substance);
     }
 }
