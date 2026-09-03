@@ -25,7 +25,6 @@ public class SafetyDataSheet {
 
     private String orginalFileName;
 
-    //Zastanawiam się czy należy stworzyć na nich osobną encję. Wtedy przy dodawaniu SDSa można byłoby ich sobie wybierać z selecta. Pytanie czy nie istnieją potrzebniejsze funkcjonalnaości.
     private String supplier;
 
     private String language;
