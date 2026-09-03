@@ -23,11 +23,13 @@ public class SafetyDataSheet {
     @JoinColumn(name="substance_id")
     private Substance substance;
 
-    private String orginalFileName;
+    private String originalSourceLink;
 
     private String supplier;
 
     private String language;
+
+    private String originalFileName;
 
     @CreationTimestamp
     private LocalDateTime localDateTime;
