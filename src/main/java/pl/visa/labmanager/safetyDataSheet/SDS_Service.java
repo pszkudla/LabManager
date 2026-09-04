@@ -26,7 +26,6 @@ public class SDS_Service {
     }
 
     public SafetyDataSheet addSDS(SDS_DTO_in dtoIn) {
-        System.out.println(dtoIn.getSubstanceUuid());
         Substance substance = substanceRepository.findByUuid(dtoIn.getSubstanceUuid()).orElseThrow(() -> new ResourceNotFoundException("Nie znaleziono substancji o UUID = %s przy próbie dodania SDS.".formatted(dtoIn.getSubstanceUuid())));
         String sdsLink = dtoIn.getOriginalSourceLink();
         SafetyDataSheet createdDataSheet = new SafetyDataSheet();
@@ -38,15 +37,14 @@ public class SDS_Service {
 
 
         createdDataSheet.setOriginalSourceLink(dtoIn.getOriginalSourceLink());
-        SDS_Utils.downloadPdf(sdsLink);
-        //SDS_Utils.downloadSdsPdfFromLink(sdsLink, createdUuid.toString());
-        Path dowloadedFilePath = SDS_Utils.downloadPdf(sdsLink);
+
+        Path dowloadedFilePath = SDS_Utils.downloadPdf(sdsLink, sdsPath);
 
         Path pdfTempFolder = dowloadedFilePath.getParent();
         String initialFilName = dowloadedFilePath.getFileName().toString();
         createdDataSheet.setOriginalFileName(initialFilName);
 
-        Path finalPdfPath = Paths.get(LabManagerApplication.sdsPath, createdUuid.toString() + ".pdf");
+        Path finalPdfPath = Paths.get(sdsPath, createdUuid.toString() + ".pdf");
         try {
             Files.move(dowloadedFilePath, finalPdfPath);
             Files.delete(pdfTempFolder);
@@ -63,6 +61,22 @@ public class SDS_Service {
     public List<SafetyDataSheet> getAllSds() {
         return sdsRepository.findAll();
     }
+
+    public SafetyDataSheet findByUuid(UUID uuid) {
+        return sdsRepository.findSafetyDataSheetByUuid(uuid).orElseThrow(() ->
+                new ResourceNotFoundException("Nie odnaleziono SDS o UUID równym %s.".formatted(uuid))
+        );
+    }
+
+    public void deleteByUuid(UUID uuid) {
+        SafetyDataSheet sdsToRemove = sdsRepository.findSafetyDataSheetByUuid(uuid).orElseThrow(() -> new ResourceNotFoundException("Nie odnaleziono karty charakterystyki o SDS = %s przy próbie jej usunięcia.".formatted(uuid.toString())));
+        sdsRepository.delete(sdsToRemove);
+    }
+
+    public List<SafetyDataSheet> findAllSdsOfSubstance(String substanceUuid) {
+        return sdsRepository.findAllSdsBySubstanceUuid(substanceUuid);
+    }
+
 
 
 }
