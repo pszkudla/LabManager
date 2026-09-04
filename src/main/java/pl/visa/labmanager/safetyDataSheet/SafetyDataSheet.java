@@ -32,7 +32,7 @@ public class SafetyDataSheet {
     private String originalFileName;
 
     @CreationTimestamp
-    private LocalDateTime localDateTime;
+    private LocalDateTime sdsAddingDateTime;
 
     @UuidGenerator
     @Column(nullable = false, unique = true, updatable = false)
