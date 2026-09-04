@@ -1,5 +1,6 @@
 package pl.visa.labmanager.substance;
 
+import org.openscience.cdk.interfaces.IAtomContainer;
 import org.springframework.stereotype.Service;
 import pl.visa.labmanager.errors.ResourceNotFoundException;
 
@@ -50,8 +51,15 @@ public class SubstanceService {
                         new ResourceNotFoundException("Nie znaleziono substancji o UUID = %s podczas prøby jej edycji.".formatted(dtoIn.getUuid())));
         substanceToEdit.setCasNumber(dtoIn.getCasNumber());
         substanceToEdit.setIupacName(dtoIn.getIupacName());
-        substanceToEdit.setSmarts(dtoIn.getSmarts());
         substanceToEdit.setSmiles(dtoIn.getSmiles());
         return substanceRepository.save(substanceToEdit).getDtoOutFromSubstance();
     }
+
+
+    public List<IAtomContainer> getAllAvailableMolecules() {
+        List<IAtomContainer> substancesWithSmiles = substanceRepository.getAllSubstancesWithSmiles().stream().map(substance -> substance.getMolecule().get()).toList();
+        return substancesWithSmiles;
+    }
+
+
 }

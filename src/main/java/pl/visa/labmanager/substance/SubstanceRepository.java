@@ -23,4 +23,7 @@ public interface SubstanceRepository extends JpaRepository<Substance, Long> {
 
     public Optional<Substance> findByUuid(String uuid);
 
+    @Query("select s from Substance s where s.smiles is not null")
+    public List<Substance> getAllSubstancesWithSmiles();
+
 }
