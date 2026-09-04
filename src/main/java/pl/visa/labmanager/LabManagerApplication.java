@@ -1,5 +1,6 @@
 package pl.visa.labmanager;
 
+import io.github.cdimascio.dotenv.Dotenv;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -9,7 +10,5 @@ public class LabManagerApplication {
     public static void main(String[] args) {
         SpringApplication.run(LabManagerApplication.class, args);
     }
-
-    public static String photosPath = "src/main/resources/static/images";
-
+    public static Dotenv dotenv = Dotenv.configure().load();
 }
