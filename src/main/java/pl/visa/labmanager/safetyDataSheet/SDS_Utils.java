@@ -16,11 +16,10 @@ import java.util.concurrent.TimeUnit;
 
 public class SDS_Utils {
 
-    public static Path downloadPdf(String link) {
-
-        String downloadDir = LabManagerApplication.sdsPath;
+    public static Path downloadPdf(String link, String downloadDir) {
         String tempFolderName = UUID.randomUUID().toString();
         Path tempDirectory = Paths.get(downloadDir, tempFolderName);
+
         try {
             Files.createDirectory(tempDirectory);
             Map<String, Object> prefs = new HashMap<>();

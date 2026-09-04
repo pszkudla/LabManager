@@ -18,6 +18,8 @@ public class SDS_Service {
     private final SDS_Repository sdsRepository;
     private final SubstanceRepository substanceRepository;
 
+    public static String sdsPath = LabManagerApplication.dotenv.get("sds_path");
+
     public SDS_Service(SDS_Repository sdsRepository, SubstanceRepository substanceRepository) {
         this.sdsRepository = sdsRepository;
         this.substanceRepository = substanceRepository;
