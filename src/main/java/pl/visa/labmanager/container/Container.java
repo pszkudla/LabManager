@@ -40,7 +40,7 @@ public class Container {
         ContainerDtoOut returnedDto = new ContainerDtoOut();
         returnedDto.setCapacity(this.getCapacity());
         returnedDto.setNotes(this.getNotes());
-        returnedDto.setSubstanceDto(this.getSubstance().getDTOFromSubstance());
+        returnedDto.setSubstanceDto(this.getSubstance().getDtoOutFromSubstance());
         returnedDto.setUuid(this.getUuid().toString());
         returnedDto.setZoneDto(this.getZone().getDto());
         return returnedDto;
