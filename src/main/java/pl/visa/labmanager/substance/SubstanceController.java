@@ -1,5 +1,6 @@
 package pl.visa.labmanager.substance;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -47,5 +48,11 @@ public class SubstanceController {
         asn.setName(newAltName);
         asn.setLanguage(language);
         return ResponseEntity.ok(substanceService.addAlternativeName(uuid, asn));
+    }
+
+    @PutMapping("/")
+    public ResponseEntity editSubstance(@RequestBody SubstanceDtoIn dtoIn) {
+        SubstanceDtoOut dtoOut = substanceService.updateSubstance(dtoIn);
+        return ResponseEntity.status(HttpStatus.OK).body(dtoOut);
     }
 }

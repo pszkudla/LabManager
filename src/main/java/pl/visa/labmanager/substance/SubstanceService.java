@@ -42,4 +42,16 @@ public class SubstanceService {
         );
         substanceRepository.delete(substance);
     }
+
+    public SubstanceDtoOut updateSubstance(SubstanceDtoIn dtoIn) {
+        Substance substanceToEdit = substanceRepository
+                .findByUuid(dtoIn.getUuid())
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Nie znaleziono substancji o UUID = %s podczas prøby jej edycji.".formatted(dtoIn.getUuid())));
+        substanceToEdit.setCasNumber(dtoIn.getCasNumber());
+        substanceToEdit.setIupacName(dtoIn.getIupacName());
+        substanceToEdit.setSmarts(dtoIn.getSmarts());
+        substanceToEdit.setSmiles(dtoIn.getSmiles());
+        return substanceRepository.save(substanceToEdit).getDtoOutFromSubstance();
+    }
 }
