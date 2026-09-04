@@ -15,6 +15,5 @@ public class SubstanceDtoIn {
     private String casNumber;
     @Size(max = 2024)
     private String smiles;
-    private String smarts;
     public String uuid;
 }

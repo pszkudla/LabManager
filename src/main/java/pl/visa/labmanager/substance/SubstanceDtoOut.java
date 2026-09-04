@@ -17,6 +17,5 @@ public class SubstanceDtoOut {
     private List<SafetyDataSheet> sdsList;
     private String casNumber;
     private String smiles;
-    private String smarts;
     private String uuid;
 }
