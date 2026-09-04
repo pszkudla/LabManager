@@ -7,11 +7,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import pl.visa.labmanager.LabManagerApplication;
+import pl.visa.labmanager.safetyDataSheet.SafetyDataSheet;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Optional;
+import java.util.List;
 import java.util.Set;
 
 
@@ -31,6 +32,10 @@ public class Substance {
     private String smiles;
     private String smarts;
     public String uuid;
+
+    @OneToMany
+    @JoinColumn(name = "substance_id")
+    private List<SafetyDataSheet> sdsList;
 
     @ElementCollection
     @CollectionTable(
@@ -57,13 +62,15 @@ public class Substance {
 
 
 
-    public SubstanceDTO getDTOFromSubstance() {
-        SubstanceDTO returnedDto = new SubstanceDTO();
+    public SubstanceDto getDTOFromSubstance() {
+        SubstanceDto returnedDto = new SubstanceDto();
         returnedDto.setCasNumber(this.getCasNumber());
         returnedDto.setIupacName(this.getIupacName());
         returnedDto.setSmarts(this.getSmarts());
         returnedDto.setSmiles(this.getSmiles());
         returnedDto.setUuid(this.getUuid());
+        returnedDto.setAlternativeNames(this.getAlternativeNames());
+        returnedDto.setSdsList(this.sdsList);
         return returnedDto;
     }
 }
