@@ -51,7 +51,7 @@ public class Substance {
 
     @JsonProperty
     public String photoDir() {
-        Path photoPath = Paths.get(LabManagerApplication.photosPath, uuid + ".png");
+        Path photoPath = Paths.get(LabManagerApplication.dotenv.get("photosPath"), uuid + ".png");
         if (Files.exists(photoPath)) {
             return photoPath.toString();
         }
@@ -62,8 +62,8 @@ public class Substance {
 
 
 
-    public SubstanceDto getDTOFromSubstance() {
-        SubstanceDto returnedDto = new SubstanceDto();
+    public SubstanceDtoOut getDtoOutFromSubstance() {
+        SubstanceDtoOut returnedDto = new SubstanceDtoOut();
         returnedDto.setCasNumber(this.getCasNumber());
         returnedDto.setIupacName(this.getIupacName());
         returnedDto.setSmarts(this.getSmarts());

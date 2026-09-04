@@ -11,7 +11,7 @@ import java.util.Set;
 @Setter
 @Getter
 @NoArgsConstructor
-public class SubstanceDto {
+public class SubstanceDtoOut {
     private String iupacName;
     private Set<AlternativeSubstanceName> alternativeNames;
     private List<SafetyDataSheet> sdsList;
