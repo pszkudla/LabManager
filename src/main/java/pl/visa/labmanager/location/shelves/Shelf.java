@@ -1,6 +1,7 @@
 package pl.visa.labmanager.location.shelves;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.UuidGenerator;
@@ -16,6 +17,8 @@ public class Shelf {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @NotEmpty
     private String shelfName;
     @ManyToOne
     @JoinColumn(name="cabinet_id")

@@ -2,6 +2,7 @@ package pl.visa.labmanager.location.cabinet;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.UuidGenerator;
@@ -17,6 +18,8 @@ public class Cabinet {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @NotEmpty
     private String cabinetName;
     @ManyToOne
     @JoinColumn(name="lab_id")
