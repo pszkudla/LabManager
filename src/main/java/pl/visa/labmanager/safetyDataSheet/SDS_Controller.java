@@ -21,7 +21,7 @@ public class SDS_Controller {
         }
 
         @PostMapping("/")
-        public void addSds(@RequestBody SDS_DTO_in dtoIn) {
+        public void addSds(@RequestBody SDS_DTO dtoIn) {
             sdsService.addSDS(dtoIn);
         }
 
@@ -39,6 +39,13 @@ public class SDS_Controller {
         public List<SafetyDataSheet> getAllSdsOfSubstance(@PathVariable(name="substanceUuid") String substanceUuid) {
             return sdsService.findAllSdsOfSubstance(substanceUuid);
         }
+
+        @PutMapping("/")
+        public  SDS_DTO editSds(@RequestBody SDS_DTO sdsDto) {
+            return sdsService.editSds(sdsDto);
+        }
+
+
 
 
 

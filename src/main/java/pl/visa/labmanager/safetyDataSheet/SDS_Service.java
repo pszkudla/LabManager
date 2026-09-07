@@ -11,6 +11,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -25,7 +26,7 @@ public class SDS_Service {
         this.substanceRepository = substanceRepository;
     }
 
-    public SafetyDataSheet addSDS(SDS_DTO_in dtoIn) {
+    public SafetyDataSheet addSDS(SDS_DTO dtoIn) {
         Substance substance = substanceRepository.findByUuid(dtoIn.getSubstanceUuid()).orElseThrow(() -> new ResourceNotFoundException("Nie znaleziono substancji o UUID = %s przy próbie dodania SDS.".formatted(dtoIn.getSubstanceUuid())));
         String sdsLink = dtoIn.getOriginalSourceLink();
         SafetyDataSheet createdDataSheet = new SafetyDataSheet();
@@ -75,6 +76,25 @@ public class SDS_Service {
 
     public List<SafetyDataSheet> findAllSdsOfSubstance(String substanceUuid) {
         return sdsRepository.findAllSdsBySubstanceUuid(substanceUuid);
+    }
+
+    public SDS_DTO editSds(SDS_DTO dto) {
+        SafetyDataSheet sdsToEdit = sdsRepository.findSafetyDataSheetByUuid(dto.getUuid()).orElseThrow(() -> new ResourceNotFoundException("Nie znaleziono SDS o UUID = %s.".formatted(dto.getUuid())));
+        if (dto.getSupplier() != null) {
+            sdsToEdit.setSupplier(dto.getSupplier());
+        }
+        if (dto.getLanguage() != null) {
+            sdsToEdit.setLanguage(dto.getLanguage());
+        }
+        if (dto.getSubstanceUuid() != null) {
+            Optional<Substance> substance = substanceRepository.findByUuid(dto.getSubstanceUuid());
+            if (substance.isPresent()) {
+                sdsToEdit.setSubstance(substance.get());
+            }
+        }
+        SafetyDataSheet editedSds = sdsRepository.save(sdsToEdit);
+        return editedSds.getDto();
+
     }
 
 
