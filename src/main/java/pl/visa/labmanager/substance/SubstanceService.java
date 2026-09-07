@@ -1,11 +1,18 @@
 package pl.visa.labmanager.substance;
 
+import lombok.extern.slf4j.Slf4j;
 import org.openscience.cdk.interfaces.IAtomContainer;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import pl.visa.labmanager.chemistryUtils.ChemistryUtils;
+import pl.visa.labmanager.chemistryUtils.InchiData;
 import pl.visa.labmanager.errors.ResourceNotFoundException;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
+@Slf4j
 @Service
 public class SubstanceService {
     private final SubstanceRepository substanceRepository;
@@ -59,6 +66,27 @@ public class SubstanceService {
     public List<IAtomContainer> getAllAvailableMolecules() {
         List<IAtomContainer> substancesWithSmiles = substanceRepository.getAllSubstancesWithSmiles().stream().map(substance -> substance.getMolecule().get()).toList();
         return substancesWithSmiles;
+    }
+
+    @Async
+    public void fillMissingInchiKeys() {
+        List<Substance> substancesWithSmiles = substanceRepository.findSubstancesWithMissingInchiData();
+        List<Substance> substancesToModify = new ArrayList<>();
+        for (Substance substance : substancesWithSmiles) {
+            String smiles = substance.getSmiles();
+            try {
+                Optional<InchiData> inchiData = ChemistryUtils.getInchiData(smiles);
+                if (inchiData.isPresent()) {
+                    substance.setInchi(inchiData.get().inchi());
+                    substance.setInchiKey(inchiData.get().inchiKey());
+                    substancesToModify.add(substance);
+                }
+            } catch (Exception e) {
+                log.warn("Błąd przy parsowaniu %s.".formatted(smiles));
+            }
+
+        }
+        substanceRepository.saveAll(substancesToModify);
     }
 
 

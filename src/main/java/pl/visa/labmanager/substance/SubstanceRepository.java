@@ -1,6 +1,7 @@
 package pl.visa.labmanager.substance;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
@@ -26,4 +27,10 @@ public interface SubstanceRepository extends JpaRepository<Substance, Long> {
     @Query("select s from Substance s where s.smiles is not null")
     public List<Substance> getAllSubstancesWithSmiles();
 
+    @Modifying
+    @Query(value = "update substances set inchi_key = ?1 where uuid = ?2", nativeQuery = true)
+    public void addInchiKeyToSubstance(String inchiKey, String uuid);
+
+    @Query("select s from Substance s where s.inchi is null and s.inchiKey is null and s.smiles is not null and LENGTH(s.smiles) > 0")
+    public List<Substance> findSubstancesWithMissingInchiData();
 }

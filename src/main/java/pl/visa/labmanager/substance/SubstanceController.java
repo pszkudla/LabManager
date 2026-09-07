@@ -55,4 +55,11 @@ public class SubstanceController {
         SubstanceDtoOut dtoOut = substanceService.updateSubstance(dtoIn);
         return ResponseEntity.status(HttpStatus.OK).body(dtoOut);
     }
+
+
+    @PostMapping("/admin/addMissingInchiData")
+    public ResponseEntity addMissingInchiData() {
+        substanceService.fillMissingInchiKeys();
+        return ResponseEntity.accepted().build();
+    }
 }
