@@ -1,6 +1,7 @@
 package pl.visa.labmanager.location.zone;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.UuidGenerator;
@@ -17,6 +18,7 @@ public class Zone {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotEmpty
     private String zoneName;
 
     @ManyToOne
