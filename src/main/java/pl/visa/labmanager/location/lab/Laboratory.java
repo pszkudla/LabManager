@@ -18,7 +18,7 @@ public class Laboratory {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotEmpty
+    @NotEmpty(message = "Nazwa laboratorium nie może być pusta.")
     private String laboratoryName;
     private String roomNumber;
 

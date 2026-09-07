@@ -25,10 +25,10 @@ public class Substance {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Size(min = 2, max = 2048)
+    @Size(min = 2, max = 2048, message = "Nazwa IUPAC powinna mieć od 2 do 2048 znaków.")
     private String iupacName;
     private String casNumber;
-    @Size(max = 2024)
+    @Size(max = 2024, message = "SMILES nie powinien mieć więcej niż 2048 znaków.")
     private String smiles;
     private String smarts;
     public String uuid;

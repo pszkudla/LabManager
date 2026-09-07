@@ -3,6 +3,7 @@ package pl.visa.labmanager.location.cabinet;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.UuidGenerator;
@@ -19,8 +20,10 @@ public class Cabinet {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotEmpty
+    @NotEmpty(message = "Nazwa szafki nie może być pusta.")
     private String cabinetName;
+
+    @NotNull(message = "Szafka powinna znajdować się w laboratioum - pole Laboratory nie może być puste!")
     @ManyToOne
     @JoinColumn(name="lab_id")
     private Laboratory laboratory;

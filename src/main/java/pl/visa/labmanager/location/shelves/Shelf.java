@@ -2,6 +2,7 @@ package pl.visa.labmanager.location.shelves;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.UuidGenerator;
@@ -18,8 +19,10 @@ public class Shelf {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotEmpty
+    @NotEmpty(message = "Nazwa półki nie może być pusta.")
     private String shelfName;
+
+    @NotNull(message = "Półka musi znajdować się w szafce.")
     @ManyToOne
     @JoinColumn(name="cabinet_id")
     private Cabinet cabinet;

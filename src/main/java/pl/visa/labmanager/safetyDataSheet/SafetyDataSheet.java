@@ -1,6 +1,7 @@
 package pl.visa.labmanager.safetyDataSheet;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
@@ -19,14 +20,17 @@ public class SafetyDataSheet {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;
 
+    @NotNull(message = "Aby dodać SDS, należy określić substancję jakiej on dotyczy!")
     @ManyToOne
     @JoinColumn(name="substance_id")
     private Substance substance;
 
     private String originalSourceLink;
 
+    @NotNull(message = "Aby dodać SDS naelży określić jego dostawcę!")
     private String supplier;
 
+    @NotNull(message = "Aby dodać SDS, trzeba określić jego język.")
     private String language;
 
     private String originalFileName;

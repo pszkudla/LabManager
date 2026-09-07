@@ -2,6 +2,7 @@ package pl.visa.labmanager.container;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.UuidGenerator;
@@ -15,9 +16,12 @@ import java.util.UUID;
 @Setter
 @Table(name="containers")
 public class Container {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @NotNull(message = "Opakowanie musi zawierać substancję!")
     @ManyToOne()
     @JoinColumn(name="substance_id")
     private Substance substance;
@@ -27,6 +31,7 @@ public class Container {
     //Miejsce na uwagi dotyczące opakowania, jeżeli jest nietypowe.
     private String notes;
 
+    @NotNull(message = "Aby dodać opakowanie, trzeba określić strefę w jakiej się znajduje.")
     @ManyToOne
     @JoinColumn(name="zone_id")
     private Zone zone;

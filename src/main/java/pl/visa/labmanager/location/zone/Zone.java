@@ -18,9 +18,10 @@ public class Zone {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotEmpty
+    @NotEmpty(message = "Nazwa strefy nie może być pusta.")
     private String zoneName;
 
+    @NotNull(message = "Strefa musi znajdować się na na półce.")
     @ManyToOne
     @JoinColumn(name="shelf_id")
     private Shelf shelf;
