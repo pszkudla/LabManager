@@ -42,4 +42,14 @@ public class SafetyDataSheet {
     @Column(nullable = false, unique = true, updatable = false)
     private UUID uuid;
 
+    public SDS_DTO getDto() {
+        SDS_DTO dto = new SDS_DTO();
+        dto.setLanguage(dto.getLanguage());
+        dto.setOriginalFileName(dto.getOriginalFileName());
+        dto.setOriginalSourceLink(dto.getOriginalSourceLink());
+        dto.setUuid(dto.getUuid());
+        dto.setSdsAddingDateTime(dto.getSdsAddingDateTime());
+        return dto;
+    }
+
 }

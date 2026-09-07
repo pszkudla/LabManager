@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @NoArgsConstructor
@@ -15,5 +16,6 @@ public class SDS_DTO {
     private String supplier;
     private String originalSourceLink;
     private String originalFileName;
+    private LocalDateTime sdsAddingDateTime;
     private UUID uuid;
 }
