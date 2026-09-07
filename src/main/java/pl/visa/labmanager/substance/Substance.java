@@ -6,13 +6,16 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.openscience.cdk.interfaces.IAtomContainer;
 import pl.visa.labmanager.LabManagerApplication;
 import pl.visa.labmanager.safetyDataSheet.SafetyDataSheet;
+import pl.visa.labmanager.chemistryUtils.ChemistryUtils;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 
@@ -30,8 +33,18 @@ public class Substance {
     private String casNumber;
     @Size(max = 2024, message = "SMILES nie powinien mieć więcej niż 2048 znaków.")
     private String smiles;
-    private String smarts;
-    public String uuid;
+
+
+    @Size(min=2, max=2048, message = "InChI powinno mieć od 2 do 2048 znaków.")
+    private String inchi;
+
+    @Size(min=27, max=27, message = "Klucz InChI powinien mieć dokładnie 27 znaków.")
+    private String inchiKey;
+
+    private String uuid;
+
+
+
 
     @OneToMany
     @JoinColumn(name = "substance_id")
@@ -43,6 +56,19 @@ public class Substance {
             joinColumns = @JoinColumn(name="substance_id")
     )
     private Set<AlternativeSubstanceName> alternativeNames;
+
+    @Transient
+    private IAtomContainer molecule;
+
+    public Optional<IAtomContainer> getMolecule() {
+        if (smiles == null || smiles.isBlank()) {
+            return Optional.empty();
+        }
+        if (molecule == null) {
+            molecule = ChemistryUtils.parseSmilesToAtomContainer(smiles);
+        }
+        return Optional.of(molecule);
+    }
 
     public void addAlternativeName(AlternativeSubstanceName altName) {
         System.out.println("Dodaję alternatywną nazwę: %s".formatted(altName));
@@ -66,7 +92,6 @@ public class Substance {
         SubstanceDtoOut returnedDto = new SubstanceDtoOut();
         returnedDto.setCasNumber(this.getCasNumber());
         returnedDto.setIupacName(this.getIupacName());
-        returnedDto.setSmarts(this.getSmarts());
         returnedDto.setSmiles(this.getSmiles());
         returnedDto.setUuid(this.getUuid());
         returnedDto.setAlternativeNames(this.getAlternativeNames());
