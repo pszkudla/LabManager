@@ -35,6 +35,9 @@ public class Container {
     @Column(nullable = false, unique = true, updatable = false)
     private UUID uuid;
 
+
+    private String purity;
+
     @JsonIgnore
     public ContainerDtoOut getDtoOut() {
         ContainerDtoOut returnedDto = new ContainerDtoOut();
