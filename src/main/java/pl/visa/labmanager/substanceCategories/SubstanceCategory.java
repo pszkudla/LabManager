@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import pl.visa.labmanager.substance.Substance;
 
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -35,7 +36,7 @@ public class SubstanceCategory {
     @JsonIgnore
     @ManyToMany
     @JoinTable(name="substance_category", joinColumns = @JoinColumn(name="category_id"), inverseJoinColumns = @JoinColumn(name="substance_id"), uniqueConstraints = {@UniqueConstraint(columnNames = {"category_id", "substance_id"})})
-    private List<Substance> substancesInCategory;
+    private Set<Substance> substancesInCategory;
 
 
 }

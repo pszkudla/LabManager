@@ -10,6 +10,7 @@ import org.openscience.cdk.interfaces.IAtomContainer;
 import pl.visa.labmanager.LabManagerApplication;
 import pl.visa.labmanager.safetyDataSheet.SafetyDataSheet;
 import pl.visa.labmanager.chemistryUtils.ChemistryUtils;
+import pl.visa.labmanager.substanceCategories.SubstanceCategory;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -43,6 +44,8 @@ public class Substance {
 
     private String uuid;
 
+    @ManyToMany(mappedBy = "substancesInCategory")
+    Set<SubstanceCategory> categoriesList;
 
 
 
