@@ -48,4 +48,12 @@ public class SubstanceCategoryController {
         return ResponseEntity.status(HttpStatus.OK).body("Pomyśnie dodano substancję do kategorii.");
     }
 
+    @PostMapping("/addSubstanceToCategoryByUuid")
+    public ResponseEntity addSubstanceToCategoryByUuid(@RequestBody Map<String, String> map) {
+        String substanceUuid = map.get("substanceUuid");
+        UUID categoryUuid = UUID.fromString(map.get("categoryUuid"));
+        substanceCategoryService.addSubstanceToCategoryByUuids(categoryUuid, substanceUuid);
+        return ResponseEntity.status(HttpStatus.OK).body("Pomyślnie dodano substancję do kategorii.");
+    }
+
 }
