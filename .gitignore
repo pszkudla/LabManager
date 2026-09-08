@@ -39,3 +39,6 @@ src/main/java/pl/visa/labmanager/substance/test_reqs/addAltName.http
 src/main/java/pl/visa/labmanager/location/zone/test_reqs/post.http
 src/main/java/pl/visa/labmanager/location/lab/test_reqs/delete.http
 src/main/java/pl/visa/labmanager/substance/test_reqs/addAltName.http
+altNamesQuery.sql
+
+/Users/pszkudla/Desktop/java_course/LabManager/src/main/java/pl/visa/labmanager/substanceCategories/test_reqs
