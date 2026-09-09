@@ -16,5 +16,8 @@ public interface ContainerRepository extends JpaRepository<Container, Long> {
 
     public Optional<Container> findContainerByUuid(UUID uuid);
 
+    @Query("select c from Container c where c.supplier is null")
+    public List<Container> getAllContainersWithoutSupplier();
+
 
 }

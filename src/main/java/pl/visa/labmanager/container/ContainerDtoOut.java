@@ -18,4 +18,5 @@ public class ContainerDtoOut {
     private String notes;
     private ZoneDtoOut zoneDto;
     private String uuid;
+    private String supplier;
 }

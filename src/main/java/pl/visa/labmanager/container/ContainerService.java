@@ -18,13 +18,11 @@ public class ContainerService {
     private final ContainerRepository containerRepository;
     private final ZoneService zoneService;
     private final SubstanceRepository substanceRepository;
-    private final SubstanceService substanceService;
 
     public ContainerService(ContainerRepository containerRepository, ZoneRepository zoneRepository, ZoneService zoneService, SubstanceRepository substanceRepository, SubstanceService substanceService) {
         this.containerRepository = containerRepository;
         this.zoneService = zoneService;
         this.substanceRepository = substanceRepository;
-        this.substanceService = substanceService;
     }
 
     public List<Container> getAllContainers() {
@@ -56,6 +54,7 @@ public class ContainerService {
         Container container = new Container();
         container.setZone(zone);
         container.setSubstance(substance);
+        container.setSupplier(containerToCreate.getSupplier());
         container.setNotes(containerToCreate.getNotes());
         container.setCapacity(containerToCreate.getCapacity());
 

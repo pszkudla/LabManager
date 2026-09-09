@@ -40,7 +40,7 @@ public class Container {
     @Column(nullable = false, unique = true, updatable = false)
     private UUID uuid;
 
-
+    private String supplier;
     private String purity;
 
     @JsonIgnore
@@ -50,6 +50,7 @@ public class Container {
         returnedDto.setNotes(this.getNotes());
         returnedDto.setSubstanceDto(this.getSubstance().getDtoOutFromSubstance());
         returnedDto.setUuid(this.getUuid().toString());
+        returnedDto.setSupplier(this.supplier);
         returnedDto.setZoneDto(this.getZone().getDto());
         return returnedDto;
     }
