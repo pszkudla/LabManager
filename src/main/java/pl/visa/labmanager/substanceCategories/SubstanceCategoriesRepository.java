@@ -15,4 +15,9 @@ public interface SubstanceCategoriesRepository extends JpaRepository<SubstanceCa
 
     public Optional<SubstanceCategory> findSubstanceCategoriesByUuid(UUID uuid);
 
+    @Query(value = "SELECT * FROM substances WHERE iupac_name LIKE '%hydride%' AND iupac_name NOT LIKE '%anhydride%'", nativeQuery = true)
+    public List<Substance> getAllHydrideSubstances();
+
+
+
 }
