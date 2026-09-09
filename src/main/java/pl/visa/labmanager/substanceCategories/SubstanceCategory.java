@@ -15,6 +15,7 @@ import pl.visa.labmanager.substance.Substance;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Entity
 @Getter
@@ -38,5 +39,14 @@ public class SubstanceCategory {
     @JoinTable(name="substance_category", joinColumns = @JoinColumn(name="category_id"), inverseJoinColumns = @JoinColumn(name="substance_id"), uniqueConstraints = {@UniqueConstraint(columnNames = {"category_id", "substance_id"})})
     private Set<Substance> substancesInCategory;
 
+
+    public SubstanceCategoryDtoOut getDto() {
+        SubstanceCategoryDtoOut dto = new SubstanceCategoryDtoOut();
+        dto.setName(this.getName());
+        dto.setUuid(this.uuid);
+        String substancesString = substancesInCategory.stream().map(Substance::getIupacName).collect(Collectors.joining(", "));
+        dto.setCategoriesString(substancesString);
+        return dto;
+    }
 
 }
