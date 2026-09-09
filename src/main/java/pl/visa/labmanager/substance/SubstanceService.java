@@ -1,11 +1,16 @@
 package pl.visa.labmanager.substance;
 
 import lombok.extern.slf4j.Slf4j;
+import org.openscience.cdk.DefaultChemObjectBuilder;
+import org.openscience.cdk.exception.InvalidSmilesException;
 import org.openscience.cdk.interfaces.IAtomContainer;
+import org.openscience.cdk.smarts.SmartsPattern;
+import org.openscience.cdk.smiles.SmilesParser;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import pl.visa.labmanager.chemistryUtils.ChemistryUtils;
 import pl.visa.labmanager.chemistryUtils.InchiData;
+import pl.visa.labmanager.errors.InvalidSubstanceDescriptorException;
 import pl.visa.labmanager.errors.ResourceNotFoundException;
 
 import java.util.ArrayList;
@@ -87,6 +92,68 @@ public class SubstanceService {
 
         }
         substanceRepository.saveAll(substancesToModify);
+    }
+
+
+    public String checkIfContainsGroups(String substanceUuid) {
+        SmilesParser sp = new SmilesParser(DefaultChemObjectBuilder.getInstance());
+        Substance substance = substanceRepository.findByUuid(substanceUuid).orElseThrow(() -> new ResourceNotFoundException("Nie znaleziono substancji o UUID = %s przy próbie określenia obecności grup funkcyjnych.".formatted(substanceUuid)));
+        String returnedString = "";
+        try {
+            IAtomContainer molecule = sp.parseSmiles(substance.getSmiles());
+
+            SmartsPattern esterPattern = SmartsPattern.create("[C](=O)[O][#6]");
+            Boolean isEster = esterPattern.matches(molecule);
+            returnedString = returnedString + "IsEster = %s. ".formatted(isEster);
+            substance.setIsEster(isEster);
+
+            SmartsPattern carboxylicAcidPattern = SmartsPattern.create("[C](=O)[O;H1]");
+            boolean isCarbAcid = carboxylicAcidPattern.matches(molecule);
+            returnedString = returnedString + "IsCarboxylicAcid = %s. ".formatted(isCarbAcid);
+            substance.setIsCarboxylicAcid(isCarbAcid);
+
+            SmartsPattern aromaticPattern = SmartsPattern.create("c:c");
+            boolean isAromatic = aromaticPattern.matches(molecule);
+            returnedString = returnedString + "IsAromatic = %s. ".formatted(isAromatic);
+            substance.setIsAromatic(isAromatic);
+
+            substanceRepository.save(substance);
+
+
+        } catch (InvalidSmilesException ise) {
+            throw new InvalidSubstanceDescriptorException("Substancja o SMILES = %s nie istnieje.".formatted(substance.getSmiles()));
+        }
+        return returnedString;
+    }
+
+    @Async
+    public void updateGroupsData() {
+        List<Substance> substancesWithSmiles = substanceRepository.getAllSubstancesWithSmiles();
+        SmilesParser sp = new SmilesParser(DefaultChemObjectBuilder.getInstance());
+        List<Substance> updatedSubstances = new ArrayList<>();
+        for (Substance substance : substancesWithSmiles) {
+            try {
+                IAtomContainer molecule = sp.parseSmiles(substance.getSmiles());
+
+                SmartsPattern esterPattern = SmartsPattern.create("[C](=O)[O][#6]");
+                boolean isEster = esterPattern.matches(molecule);
+                substance.setIsEster(isEster);
+
+                SmartsPattern carboxylicAcidPattern = SmartsPattern.create("[C](=O)[O;H1]");
+                boolean isCarbAcid = carboxylicAcidPattern.matches(molecule);
+                substance.setIsCarboxylicAcid(isCarbAcid);
+
+                SmartsPattern aromaticPattern = SmartsPattern.create("c:c");
+                boolean isAromatic = aromaticPattern.matches(molecule);
+                substance.setIsAromatic(isAromatic);
+
+                updatedSubstances.add(substance);
+
+            } catch (InvalidSmilesException ise) {
+                throw new InvalidSubstanceDescriptorException("Substancja o SMILES = %s nie istnieje.".formatted(substance.getSmiles()));
+            }
+            substanceRepository.saveAll(updatedSubstances);
+        }
     }
 
 

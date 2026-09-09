@@ -1,5 +1,6 @@
 package pl.visa.labmanager.substance;
 
+import lombok.Getter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -60,6 +61,19 @@ public class SubstanceController {
     @PostMapping("/admin/addMissingInchiData")
     public ResponseEntity addMissingInchiData() {
         substanceService.fillMissingInchiKeys();
+        return ResponseEntity.accepted().build();
+    }
+
+    @GetMapping("/check-groups/{uuid}")
+    public ResponseEntity checkSubstanceGroups(@PathVariable(name="uuid") String uuid) {
+        String response = substanceService.checkIfContainsGroups(uuid);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+
+    @PostMapping("/update-all-substances")
+    public ResponseEntity updateAllSubstances() {
+        substanceService.updateGroupsData();
         return ResponseEntity.accepted().build();
     }
 }

@@ -34,6 +34,21 @@ public interface SubstanceRepository extends JpaRepository<Substance, Long> {
     @Query("select s from Substance s where s.inchi is null and s.inchiKey is null and s.smiles is not null and LENGTH(s.smiles) > 0")
     public List<Substance> findSubstancesWithMissingInchiData();
 
+    @Query("select s from Substance s where s.isAromatic = true")
+    public List<Substance> getAllAromaticSubstances();
+
+    @Query("select s from Substance s where s.isEster = true")
+    public List<Substance> getAllEsters();
+
+    @Query("select s from Substance s where s.isCarboxylicAcid = true")
+    public List<Substance> getAllCarboxylicAcids();
+
 
     public Optional<Substance> findSubstanceByCasNumber(String cas);
+
+
+    @Query("select s from Substance s where s.smiles is not null and s.isCarboxylicAcid is null and s.isEster is null and s.isAromatic is null")
+    public List<Substance> getAllSubstancesToFill();
+
+
 }
