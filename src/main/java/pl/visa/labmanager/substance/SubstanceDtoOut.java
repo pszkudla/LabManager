@@ -13,9 +13,10 @@ import java.util.Set;
 @NoArgsConstructor
 public class SubstanceDtoOut {
     private String iupacName;
-    private Set<AlternativeSubstanceName> alternativeNames;
+    private String alternativeNames;
     private List<SafetyDataSheet> sdsList;
     private String casNumber;
     private String smiles;
     private String uuid;
+    private String photoDir;
 }

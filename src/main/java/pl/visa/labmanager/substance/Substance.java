@@ -1,5 +1,6 @@
 package pl.visa.labmanager.substance;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
@@ -18,6 +19,7 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 
 @Entity
@@ -65,6 +67,7 @@ public class Substance {
     private Set<AlternativeSubstanceName> alternativeNames;
 
     @Transient
+    @JsonIgnore
     private IAtomContainer molecule;
 
     public Optional<IAtomContainer> getMolecule() {
@@ -83,7 +86,7 @@ public class Substance {
     }
 
     @JsonProperty
-    public String photoDir() {
+    public String getPhotoDir() {
         Path photoPath = Paths.get(LabManagerApplication.dotenv.get("photosPath"), uuid + ".png");
         if (Files.exists(photoPath)) {
             return photoPath.toString();
@@ -101,8 +104,11 @@ public class Substance {
         returnedDto.setIupacName(this.getIupacName());
         returnedDto.setSmiles(this.getSmiles());
         returnedDto.setUuid(this.getUuid());
-        returnedDto.setAlternativeNames(this.getAlternativeNames());
+        returnedDto.setAlternativeNames(this.getAlternativeNames()
+                .stream()
+                .map(AlternativeSubstanceName::getName).collect(Collectors.joining(", ")));
         returnedDto.setSdsList(this.sdsList);
+        returnedDto.setPhotoDir(this.getPhotoDir());
         return returnedDto;
     }
 }
