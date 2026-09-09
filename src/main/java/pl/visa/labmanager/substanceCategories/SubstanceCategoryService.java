@@ -26,8 +26,8 @@ public class SubstanceCategoryService {
         return categoryToAdd;
     }
 
-    public List<SubstanceCategory> getAllCategories() {
-        return substanceCategoriesRepository.findAllCategories();
+    public List<SubstanceCategoryDtoOut> getAllCategories() {
+        return substanceCategoriesRepository.findAllCategories().stream().map(substanceCategory -> substanceCategory.getDto()).toList();
     }
 
     public SubstanceCategory getSubstanceCategoryByUuid(UUID uuid) {
