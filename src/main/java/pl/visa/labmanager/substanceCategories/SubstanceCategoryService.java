@@ -57,5 +57,21 @@ public class SubstanceCategoryService {
     }
 
 
+    public void deleteSubstanceFromCategory(String substanceUuid, UUID categoryUuid) {
+        SubstanceCategory category = substanceCategoriesRepository.findSubstanceCategoriesByUuid(categoryUuid).orElseThrow(() -> new ResourceNotFoundException("Nie znaleziono kategorii substancji o UUID = %s przy próbie usunięcia substancji z kategorii.".formatted(categoryUuid)));
+        Substance substance = substanceRepository.findByUuid(substanceUuid).orElseThrow(() -> new ResourceNotFoundException("Nie znaleziono substancji o UUID = %s przy próbie usunięcia substancji z kategorii.".formatted(substanceUuid)));
+        category.getSubstancesInCategory().remove(substance);
+        substanceCategoriesRepository.save(category);
+    }
+
+    public SubstanceCategory editSubstanceCategory(SubstanceCategoryDtoIn dtoIn) {
+        SubstanceCategory categoryToEdit = substanceCategoriesRepository
+                .findSubstanceCategoriesByUuid(dtoIn.getUuid())
+                .orElseThrow(() -> new ResourceNotFoundException("Nie znaleziono kategorii substancji o UUID = %s podczas próby jej edycji.".formatted(dtoIn.getUuid())));
+        categoryToEdit.setName(dtoIn.getName());
+        return substanceCategoriesRepository.save(categoryToEdit);
+    }
+
+
 
 }

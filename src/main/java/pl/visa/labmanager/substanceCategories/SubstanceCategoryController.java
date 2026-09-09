@@ -18,21 +18,20 @@ public class SubstanceCategoryController {
     }
 
     @PostMapping("/")
-    public SubstanceCategory addSubstanceCategory(@RequestBody SubstanceCategory_Dto dto) {
+    public SubstanceCategory addSubstanceCategory(@RequestBody SubstanceCategoryDtoIn dto) {
         SubstanceCategory createdCategory =  substanceCategoryService.addSubstanceCategory(dto.getName());
         return createdCategory;
     }
 
     @GetMapping("/{uuid}")
-    public SubstanceCategory getSubstanceCategoryByUuid(@PathVariable(name="uuid") UUID uuid) {
-        return substanceCategoryService.getSubstanceCategoryByUuid(uuid);
+    public SubstanceCategoryDtoOut getSubstanceCategoryByUuid(@PathVariable(name="uuid") UUID uuid) {
+        return substanceCategoryService.getSubstanceCategoryByUuid(uuid).getDto();
     }
 
-    @GetMapping("/all")
-    public List<SubstanceCategory> getAllCategoiries() {
+    @GetMapping("/")
+    public List<SubstanceCategoryDtoOut> getAllCategoiries() {
         return substanceCategoryService.getAllCategories();
     }
-
 
 
     @DeleteMapping("/{uuid}")
@@ -55,5 +54,24 @@ public class SubstanceCategoryController {
         substanceCategoryService.addSubstanceToCategoryByUuids(categoryUuid, substanceUuid);
         return ResponseEntity.status(HttpStatus.OK).body("Pomyślnie dodano substancję do kategorii.");
     }
+
+    @DeleteMapping("/deleteSubstanceFromCategory")
+    public ResponseEntity deleteSubstanceFromCategory(@RequestBody Map<String, String> map) {
+        String substanceUuid = map.get("substanceUuid");
+        UUID categoryUuid = UUID.fromString(map.get("categoryUuid"));
+        substanceCategoryService.deleteSubstanceFromCategory(substanceUuid, categoryUuid);
+        return ResponseEntity.status(HttpStatus.OK).body("Pomyślnie usunięto substancję z kategorii.");
+    }
+
+    @PutMapping("/")
+    public ResponseEntity changeSubstanceCategoryName(@RequestBody SubstanceCategoryDtoIn dtoIn) {
+        SubstanceCategory sc =  substanceCategoryService.editSubstanceCategory(dtoIn);
+        return ResponseEntity.status(HttpStatus.OK).body(sc);
+    }
+
+
+
+
+
 
 }
