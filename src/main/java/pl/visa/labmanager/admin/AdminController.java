@@ -2,10 +2,7 @@ package pl.visa.labmanager.admin;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pl.visa.labmanager.container.Container;
 import pl.visa.labmanager.container.ContainerDtoOut;
 
@@ -45,4 +42,12 @@ public class AdminController {
         adminService.addSubstancesGroupData();
         return ResponseEntity.accepted().build();
     }
+
+    @PostMapping("/addAltNames")
+    public ResponseEntity addAltNames() {
+        adminService.addAltNames();
+        return ResponseEntity.accepted().build();
+    }
+
+
 }

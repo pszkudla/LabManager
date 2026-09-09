@@ -1,5 +1,7 @@
 package pl.visa.labmanager.admin;
 
+import com.opencsv.CSVReader;
+import com.opencsv.exceptions.CsvException;
 import org.openscience.cdk.DefaultChemObjectBuilder;
 import org.openscience.cdk.exception.InvalidSmilesException;
 import org.openscience.cdk.interfaces.IAtomContainer;
@@ -14,13 +16,14 @@ import pl.visa.labmanager.errors.InvalidSubstanceDescriptorException;
 import pl.visa.labmanager.errors.ResourceNotFoundException;
 import pl.visa.labmanager.location.zone.Zone;
 import pl.visa.labmanager.location.zone.ZoneRepository;
+import pl.visa.labmanager.substance.AlternativeSubstanceName;
 import pl.visa.labmanager.substance.Substance;
 import pl.visa.labmanager.substance.SubstanceRepository;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.UUID;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.*;
 
 @Service
 public class AdminService {
@@ -132,4 +135,61 @@ public class AdminService {
         }
         substanceRepository.saveAll(editList);
     }
+
+
+
+    @Async
+    public void addAltNames() {
+        try (CSVReader reader = new CSVReader(new FileReader("altNamesData.csv"))) {
+
+            List<String[]> rows = reader.readAll();
+
+            List<Substance> substancesToEdit = new ArrayList<>();
+
+
+            for (String[] row : rows) {
+                String plName = row[1];
+                String enName = row[2];
+                String cas = row[3];
+
+//                System.out.println("%s | %s | %s".formatted(cas, plName, enName));
+                Optional<Substance> optSubstance = substanceRepository.findSubstanceByCasNumber(cas);
+
+                if (optSubstance.isPresent()) {
+                    Substance substance = optSubstance.get();
+                    String iupacName = substance.getIupacName();
+                    if (iupacName != plName) {
+                        AlternativeSubstanceName altName = new AlternativeSubstanceName();
+                        altName.setLanguage("pl");
+                        altName.setName(plName);
+                        Set<AlternativeSubstanceName> altNames = substance.getAlternativeNames();
+                        altNames.add(altName);
+                    }
+
+                    if (iupacName != enName) {
+                        AlternativeSubstanceName altName = new AlternativeSubstanceName();
+                        altName.setLanguage("en");
+                        altName.setName(enName);
+                        Set<AlternativeSubstanceName> altNames = substance.getAlternativeNames();
+                        altNames.add(altName);
+                    }
+
+                    substancesToEdit.add(substance);
+                }
+            }
+            substanceRepository.saveAll(substancesToEdit);
+
+        } catch (FileNotFoundException e) {
+            System.out.println("FileNotFoundExcerption");
+            e.printStackTrace();
+        } catch (IOException e) {
+            System.out.println("ioException");
+            e.printStackTrace();
+        } catch (CsvException e) {
+            System.out.println("csv exception");
+            e.printStackTrace();
+        }
+    }
+
+
 }
