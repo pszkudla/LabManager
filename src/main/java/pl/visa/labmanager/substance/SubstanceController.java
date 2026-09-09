@@ -76,4 +76,10 @@ public class SubstanceController {
         substanceService.updateGroupsData();
         return ResponseEntity.accepted().build();
     }
+
+    @GetMapping("/allNamesBySubstring/{subs}")
+    public ResponseEntity getByIupacAndAltNames(@PathVariable(name="subs") String subs) {
+        List<SubstanceDtoOut> allSubstances = substanceService.getSubstncesByIupacAndAltNames(subs);
+        return ResponseEntity.status(HttpStatus.OK).body(allSubstances);
+    }
 }

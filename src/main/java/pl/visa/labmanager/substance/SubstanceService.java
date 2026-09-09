@@ -157,4 +157,10 @@ public class SubstanceService {
     }
 
 
+
+    public List<SubstanceDtoOut> getSubstncesByIupacAndAltNames(String substring) {
+        return substanceRepository.getSubstancesByIupacAndAltNames(substring).stream().map(Substance::getDtoOutFromSubstance).toList();
+    }
+
+
 }

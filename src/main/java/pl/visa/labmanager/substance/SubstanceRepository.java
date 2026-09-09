@@ -50,5 +50,6 @@ public interface SubstanceRepository extends JpaRepository<Substance, Long> {
     @Query("select s from Substance s where s.smiles is not null and s.isCarboxylicAcid is null and s.isEster is null and s.isAromatic is null")
     public List<Substance> getAllSubstancesToFill();
 
-
+    @Query("select distinct s from Substance s left join s.alternativeNames an where lower(s.iupacName) like lower(concat('%', ?1, '%'))  or lower(an.name) like lower(concat('%', ?1, '%'))")
+    List<Substance> getSubstancesByIupacAndAltNames(String substring);
 }
