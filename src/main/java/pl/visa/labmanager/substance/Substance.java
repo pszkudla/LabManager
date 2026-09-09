@@ -57,7 +57,7 @@ public class Substance {
     @JoinColumn(name = "substance_id")
     private List<SafetyDataSheet> sdsList;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(
             name="alt_substance_names",
             joinColumns = @JoinColumn(name="substance_id")
