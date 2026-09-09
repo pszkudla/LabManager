@@ -44,6 +44,10 @@ public class Substance {
 
     private String uuid;
 
+    private Boolean isEster;
+    private Boolean isCarboxylicAcid;
+    private Boolean isAromatic;
+
     @ManyToMany(mappedBy = "substancesInCategory")
     Set<SubstanceCategory> categoriesList;
 
