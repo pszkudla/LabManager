@@ -34,7 +34,7 @@ public class ShelvesController {
     }
 
     @PostMapping("/")
-    public ResponseEntity addShelf(@RequestBody Map<String, String> map) {
+    public ResponseEntity<String> addShelf(@RequestBody Map<String, String> map) {
         String cabinetUuid = map.get("cabinetUuid");
         UUID cabinetUuidAsUuid = UUID.fromString(cabinetUuid);
         String shelfName = map.get("shelfName");
@@ -52,10 +52,9 @@ public class ShelvesController {
     }
 
     @PutMapping("/")
-    public ResponseEntity editShelf(@RequestBody ShelfDtoIn shelfPostDTO) {
-            ShelfDtoOut shelfDto = shelvesService.updateShelf(shelfPostDTO);
-            return ResponseEntity.status(HttpStatus.OK).body(shelfDto);
-
+    public ResponseEntity<ShelfDtoOut> editShelf(@RequestBody ShelfDtoIn shelfPostDTO) {
+        ShelfDtoOut shelfDto = shelvesService.updateShelf(shelfPostDTO);
+        return ResponseEntity.status(HttpStatus.OK).body(shelfDto);
     }
 
     @DeleteMapping("/{uuid}")
