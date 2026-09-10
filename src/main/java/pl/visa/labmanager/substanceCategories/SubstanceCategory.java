@@ -44,8 +44,11 @@ public class SubstanceCategory {
         SubstanceCategoryDtoOut dto = new SubstanceCategoryDtoOut();
         dto.setName(this.getName());
         dto.setUuid(this.uuid);
-        String substancesString = substancesInCategory.stream().map(Substance::getIupacName).collect(Collectors.joining(", "));
-        dto.setCategoriesString(substancesString);
+        String substancesString = substancesInCategory
+                .stream()
+                .map(Substance::getIupacName)
+                .collect(Collectors.joining(", "));
+        dto.setSubstancesString(substancesString);
         return dto;
     }
 

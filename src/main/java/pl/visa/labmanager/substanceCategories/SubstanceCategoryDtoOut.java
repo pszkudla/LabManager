@@ -12,5 +12,5 @@ import java.util.UUID;
 public class SubstanceCategoryDtoOut {
     private String name;
     private UUID uuid;
-    private String categoriesString;
+    private String substancesString;
 }
