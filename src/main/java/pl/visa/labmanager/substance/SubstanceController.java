@@ -41,7 +41,7 @@ public class SubstanceController {
     }
 
     @PostMapping("/addAltName")
-    public ResponseEntity addAltName(@RequestBody Map<String, String> map) {
+    public ResponseEntity<AlternativeSubstanceName> addAltName(@RequestBody Map<String, String> map) {
         String language = map.get("language");
         String newAltName = map.get("name");
         String uuid = map.get("uuid");
@@ -52,33 +52,33 @@ public class SubstanceController {
     }
 
     @PutMapping("/")
-    public ResponseEntity editSubstance(@RequestBody SubstanceDtoIn dtoIn) {
+    public ResponseEntity<SubstanceDtoOut> editSubstance(@RequestBody SubstanceDtoIn dtoIn) {
         SubstanceDtoOut dtoOut = substanceService.updateSubstance(dtoIn);
         return ResponseEntity.status(HttpStatus.OK).body(dtoOut);
     }
 
 
     @PostMapping("/admin/addMissingInchiData")
-    public ResponseEntity addMissingInchiData() {
+    public ResponseEntity<Void> addMissingInchiData() {
         substanceService.fillMissingInchiKeys();
         return ResponseEntity.accepted().build();
     }
 
     @GetMapping("/check-groups/{uuid}")
-    public ResponseEntity checkSubstanceGroups(@PathVariable(name="uuid") String uuid) {
+    public ResponseEntity<String> checkSubstanceGroups(@PathVariable(name="uuid") String uuid) {
         String response = substanceService.checkIfContainsGroups(uuid);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
 
     @PostMapping("/update-all-substances")
-    public ResponseEntity updateAllSubstances() {
+    public ResponseEntity<Void> updateAllSubstances() {
         substanceService.updateGroupsData();
         return ResponseEntity.accepted().build();
     }
 
     @GetMapping("/allNamesBySubstring/{subs}")
-    public ResponseEntity getByIupacAndAltNames(@PathVariable(name="subs") String subs) {
+    public ResponseEntity<List<SubstanceDtoOut>> getByIupacAndAltNames(@PathVariable(name="subs") String subs) {
         List<SubstanceDtoOut> allSubstances = substanceService.getSubstncesByIupacAndAltNames(subs);
         return ResponseEntity.status(HttpStatus.OK).body(allSubstances);
     }
