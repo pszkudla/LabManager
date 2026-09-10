@@ -14,7 +14,7 @@ public class ContainerController {
     private final ContainerService containerService;
 
 
-    public ContainerController(ContainerService containerService, ZoneService zoneService, ContainerRepository containerRepository) {
+    public ContainerController(ContainerService containerService) {
         this.containerService = containerService;
     }
 
