@@ -23,7 +23,7 @@ public class SDS_Controller {
         }
 
         @PostMapping("/")
-        public ResponseEntity<ResponseEntity> addSds(@RequestBody SDS_DTO dtoIn) {
+        public ResponseEntity<SafetyDataSheet> addSds(@RequestBody SDS_DTO dtoIn) {
             return ResponseEntity.status(HttpStatus.OK).body(sdsService.addSDS(dtoIn));
         }
 
