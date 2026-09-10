@@ -38,8 +38,6 @@ public class SafetyDataSheet {
     @CreationTimestamp
     private LocalDateTime sdsAddingDateTime;
 
-    @UuidGenerator
-    @Column(nullable = false, unique = true, updatable = false)
     private UUID uuid;
 
     public SDS_DTO getDto() {
