@@ -1,7 +1,6 @@
 package pl.visa.labmanager.DbUtils;
 
 import io.github.cdimascio.dotenv.Dotenv;
-import pl.visa.labmanager.CsvFilesParser.DbLogDetails;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
