@@ -36,4 +36,11 @@ public class RestControllerAdvice {
         return  ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
     }
 
+    @ExceptionHandler(SdsToDeleteNotFoundException.class)
+    public ResponseEntity<ErrorResponse> sdsDeleteExcption(SdsToDeleteNotFoundException ex) {
+        ErrorResponse errorResponse = new ErrorResponse(ex.getMessage());
+        log.error(ex.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
+    }
+
 }
