@@ -21,7 +21,12 @@ public class CabinetService {
     }
 
     public List<Cabinet> getAllCabinets() {
-        return this.cabinetRepository.findAll();
+        return cabinetRepository.findAll();
+    }
+
+    public List<CabinetDtoOut> getAllCabinetDtos() {
+        return this.cabinetRepository.findAll().stream()
+                .map(Cabinet::getDtoOut).toList();
     }
 
     public Optional<Cabinet> findCabinetByUuid(UUID uuid) {

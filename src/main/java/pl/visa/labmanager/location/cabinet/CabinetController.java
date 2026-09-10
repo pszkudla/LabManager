@@ -24,9 +24,8 @@ public class CabinetController {
     }
 
     @GetMapping("/all")
-    public List<CabinetDtoOut> getAllCabinets() {
-        return cabinetService.getAllCabinets().stream()
-                .map(Cabinet::getDtoOut).toList();
+    public ResponseEntity<List<CabinetDtoOut>> getAllCabinets() {
+        return ResponseEntity.status(HttpStatus.OK).body(cabinetService.getAllCabinetDtos());
     }
 
     @GetMapping("/{uuid}")
@@ -40,7 +39,7 @@ public class CabinetController {
     }
 
     @PostMapping("/")
-    public void addCabinet(@RequestBody Map<String, String> map){
+    public ResponseEntity<String> addCabinet(@RequestBody Map<String, String> map){
         Cabinet addedCabinet = new Cabinet();
         addedCabinet.setCabinetName(map.get("cabinetName"));
         Optional<Laboratory> cabinetLabOpt = labService.getLabFromUuid(UUID.fromString(map.get("labUuid")));
@@ -48,11 +47,15 @@ public class CabinetController {
             Laboratory cabinetLab = cabinetLabOpt.get();
             addedCabinet.setLaboratory(cabinetLab);
             cabinetService.addCabinet(addedCabinet);
+            return ResponseEntity.status(HttpStatus.OK).body("Pomyślnie dodano szafkę do laboratorium.");
+        }
+        else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Nie odnaleziono laboratorium o podanym UUID.");
         }
     }
 
     @DeleteMapping("/{uuid}")
-    public ResponseEntity deleteCabinet(@PathVariable(name="uuid") UUID uuid) {
+    public ResponseEntity<String> deleteCabinet(@PathVariable(name="uuid") UUID uuid) {
         Optional<Cabinet> cabinet = cabinetService.deleteByUuid(uuid);
         if (cabinet.isPresent()) {
             return ResponseEntity.status(HttpStatus.OK).body("Zmodyfikowano szafkę o UUID = %s.".formatted(uuid));
@@ -62,7 +65,7 @@ public class CabinetController {
     }
 
     @PutMapping("/")
-    public ResponseEntity updateCabinet(@RequestBody CabinetDtoIn cabinetDtoIn) {
+    public ResponseEntity<CabinetDtoOut> updateCabinet(@RequestBody CabinetDtoIn cabinetDtoIn) {
         return ResponseEntity.status(HttpStatus.OK).body(cabinetService.updateCabinet(cabinetDtoIn));
     }
 
