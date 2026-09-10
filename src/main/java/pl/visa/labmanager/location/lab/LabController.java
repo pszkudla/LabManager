@@ -19,12 +19,12 @@ public class LabController {
     }
 
     @PostMapping("/")
-    public void addLab(@RequestBody Laboratory laboratory) {
-        labService.addLaboratory(laboratory.getLaboratoryName());
+    public ResponseEntity<LaboratoryDTO> addLab(@RequestBody Laboratory laboratory) {
+        return ResponseEntity.status(HttpStatus.OK).body(labService.addLaboratory(laboratory.getLaboratoryName()));
     }
 
     @GetMapping("/all")
-    public ResponseEntity getAllLaboratories() {
+    public ResponseEntity<List<LaboratoryDTO>> getAllLaboratories() {
         List<LaboratoryDTO> dtosToShow = labService.findAllLabs().stream().map(Laboratory::getLabDTO).toList();
         return ResponseEntity.ok().body(dtosToShow);
     }

@@ -14,10 +14,10 @@ public class LabService {
         this.labRepository = labRepository;
     }
 
-    public void addLaboratory(String name) {
+    public LaboratoryDTO addLaboratory(String name) {
         Laboratory lab = new Laboratory();
         lab.setLaboratoryName(name);
-        labRepository.save(lab);
+        return labRepository.save(lab).getLabDTO();
     }
 
     public Optional<Laboratory> getLabFromUuid(UUID uuid)  {
