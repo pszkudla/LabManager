@@ -20,19 +20,19 @@ public class SubstanceController {
     }
 
     @GetMapping("/top/{n}")
-    public List<Substance> getTop(@PathVariable(name="n") int number) {
-        return substanceService.findNSubstances(number);
+    public ResponseEntity<List<Substance>> getTop(@PathVariable(name="n") int number) {
+        return ResponseEntity.status(HttpStatus.OK).body(substanceService.findNSubstances(number));
     }
 
     @GetMapping("/fromSubstring/{subs}")
-    public List<Substance> getFromSubs(@PathVariable(name="subs") String substring) {
-        return substanceService.getSubstancesFromsubstring(substring);
+    public ResponseEntity<List<Substance>> getFromSubs(@PathVariable(name="subs") String substring) {
+        return ResponseEntity.status(HttpStatus.OK).body(substanceService.getSubstancesFromsubstring(substring));
     }
 
     @GetMapping("/fromCas/{casSubs}")
-    public List<Substance> getByCasFragment(@PathVariable(name="casSubs") String casSubstring) {
+    public ResponseEntity<List<Substance>> getByCasFragment(@PathVariable(name="casSubs") String casSubstring) {
         System.out.println(casSubstring);
-        return substanceService.getSubstancesByCasFragment(casSubstring);
+        return ResponseEntity.status(HttpStatus.OK).body(substanceService.getSubstancesByCasFragment(casSubstring));
     }
 
     @DeleteMapping("/{uuid}")
