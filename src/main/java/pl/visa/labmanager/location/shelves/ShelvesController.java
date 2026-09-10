@@ -24,13 +24,13 @@ public class ShelvesController {
     }
 
     @GetMapping("/all")
-    public List<ShelfDtoOut> getAllShelves() {
-        return shelvesService.getAllShelveDTOS();
+    public ResponseEntity<List<ShelfDtoOut>> getAllShelves() {
+        return ResponseEntity.status(HttpStatus.OK).body(shelvesService.getAllShelveDTOS());
     }
 
     @GetMapping("/{uuid}")
-    public Optional<ShelfDtoOut> getShelfDtoByUuid(@PathVariable(name="uuid") UUID uuid) {
-        return shelvesService.findShelfDtoByUuid(uuid);
+    public ResponseEntity<Optional<ShelfDtoOut>> getShelfDtoByUuid(@PathVariable(name="uuid") UUID uuid) {
+        return ResponseEntity.status(HttpStatus.OK).body(shelvesService.findShelfDtoByUuid(uuid));
     }
 
     @PostMapping("/")
