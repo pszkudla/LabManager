@@ -1,5 +1,7 @@
 package pl.visa.labmanager.safetyDataSheet;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,33 +18,35 @@ public class SDS_Controller {
     }
 
         @GetMapping("/all")
-        public List<SafetyDataSheet> getAllDataSheets() {
-            return sdsService.getAllSds();
+        public ResponseEntity<List<SafetyDataSheet>> getAllDataSheets() {
+            return ResponseEntity.status(HttpStatus.OK).body(sdsService.getAllSds());
         }
 
         @PostMapping("/")
-        public void addSds(@RequestBody SDS_DTO dtoIn) {
-            sdsService.addSDS(dtoIn);
+        public ResponseEntity<ResponseEntity> addSds(@RequestBody SDS_DTO dtoIn) {
+            return ResponseEntity.status(HttpStatus.OK).body(sdsService.addSDS(dtoIn));
         }
 
         @GetMapping("/{uuid}")
-        public SafetyDataSheet getByUuid(@PathVariable(name="uuid") UUID uuid) {
-            return sdsService.findByUuid(uuid);
+        public ResponseEntity<SafetyDataSheet> getByUuid(@PathVariable(name="uuid") UUID uuid) {
+            return ResponseEntity.status(HttpStatus.OK).body(sdsService.findByUuid(uuid));
         }
 
         @DeleteMapping("/{uuid}")
-        public void deleteByUuid(@PathVariable(name="uuid") UUID uuid) {
+        public ResponseEntity deleteByUuid(@PathVariable(name="uuid") UUID uuid) {
             sdsService.deleteByUuid(uuid);
+            return ResponseEntity.status(HttpStatus.OK).body("Udało się usunąć kartę charakterystyki z bazy danych.");
         }
 
         @GetMapping("/bySubstanceUuid/{substanceUuid}")
-        public List<SafetyDataSheet> getAllSdsOfSubstance(@PathVariable(name="substanceUuid") String substanceUuid) {
-            return sdsService.findAllSdsOfSubstance(substanceUuid);
+        public ResponseEntity<List<SafetyDataSheet>> getAllSdsOfSubstance(@PathVariable(name="substanceUuid") String substanceUuid) {
+            return ResponseEntity.status(HttpStatus.OK).body(sdsService.findAllSdsOfSubstance(substanceUuid));
         }
 
         @PutMapping("/")
-        public  SDS_DTO editSds(@RequestBody SDS_DTO sdsDto) {
-            return sdsService.editSds(sdsDto);
+        public  ResponseEntity<SDS_DTO> editSds(@RequestBody SDS_DTO sdsDto) {
+
+        return ResponseEntity.status(HttpStatus.OK).body(sdsService.editSds(sdsDto));
         }
 
 
