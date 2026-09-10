@@ -1,5 +1,7 @@
 package pl.visa.labmanager.container;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import pl.visa.labmanager.errors.ResourceNotFoundException;
 import pl.visa.labmanager.location.zone.Zone;
@@ -25,8 +27,8 @@ public class ContainerService {
         this.substanceRepository = substanceRepository;
     }
 
-    public List<Container> getAllContainers() {
-        return containerRepository.findAll();
+    public List<ContainerDtoOut> getAllContainersDtos() {
+        return containerRepository.findAll().stream().map(Container::getDtoOut).toList();
     }
 
     public Optional<Container> getContainerByUuid(String uuid) {

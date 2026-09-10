@@ -12,19 +12,15 @@ import java.util.UUID;
 @RequestMapping("/container")
 public class ContainerController {
     private final ContainerService containerService;
-    private final ZoneService zoneService;
-    private final ContainerRepository containerRepository;
+
 
     public ContainerController(ContainerService containerService, ZoneService zoneService, ContainerRepository containerRepository) {
         this.containerService = containerService;
-        this.zoneService = zoneService;
-        this.containerRepository = containerRepository;
     }
 
     @GetMapping("/all")
-    public List<ContainerDtoOut> getAllContainers() {
-        return containerService.getAllContainers().stream()
-                .map(Container::getDtoOut).toList();
+    public ResponseEntity<List<ContainerDtoOut>> getAllContainers() {
+        return ResponseEntity.status(HttpStatus.OK).body(containerService.getAllContainersDtos());
     }
 
     @GetMapping("/{uuid}")
