@@ -3,6 +3,7 @@ package pl.visa.labmanager.safetyDataSheet;
 import org.springframework.stereotype.Service;
 import pl.visa.labmanager.LabManagerApplication;
 import pl.visa.labmanager.errors.ResourceNotFoundException;
+import pl.visa.labmanager.errors.SdsToDeleteNotFoundException;
 import pl.visa.labmanager.substance.Substance;
 import pl.visa.labmanager.substance.SubstanceRepository;
 
@@ -71,7 +72,15 @@ public class SDS_Service {
 
     public void deleteByUuid(UUID uuid) {
         SafetyDataSheet sdsToRemove = sdsRepository.findSafetyDataSheetByUuid(uuid).orElseThrow(() -> new ResourceNotFoundException("Nie odnaleziono karty charakterystyki o SDS = %s przy próbie jej usunięcia.".formatted(uuid.toString())));
-        sdsRepository.delete(sdsToRemove);
+        sdsToRemove.getUuid();
+        String sdsFileName = uuid.toString() + ".pdf";
+        Path sdsFilePath = Paths.get(sdsPath, sdsFileName);
+        try {
+            Files.delete(sdsFilePath);
+            sdsRepository.delete(sdsToRemove);
+        } catch (IOException ioe) {
+            throw new SdsToDeleteNotFoundException(uuid.toString());
+        }
     }
 
     public List<SafetyDataSheet> findAllSdsOfSubstance(String substanceUuid) {
