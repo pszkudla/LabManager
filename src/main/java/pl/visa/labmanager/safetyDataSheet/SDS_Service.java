@@ -1,5 +1,6 @@
 package pl.visa.labmanager.safetyDataSheet;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import pl.visa.labmanager.LabManagerApplication;
 import pl.visa.labmanager.errors.ResourceNotFoundException;
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+@Slf4j
 @Service
 public class SDS_Service {
     private final SDS_Repository sdsRepository;
@@ -27,6 +29,7 @@ public class SDS_Service {
         this.substanceRepository = substanceRepository;
     }
 
+    //Czy jest sens dodawać tutaj funkcję dodającą SDS po CAS?
     public SafetyDataSheet addSDS(SDS_DTO dtoIn) {
         Substance substance = substanceRepository.findByUuid(dtoIn.getSubstanceUuid()).orElseThrow(() -> new ResourceNotFoundException("Nie znaleziono substancji o UUID = %s przy próbie dodania SDS.".formatted(dtoIn.getSubstanceUuid())));
         String sdsLink = dtoIn.getOriginalSourceLink();
@@ -78,6 +81,7 @@ public class SDS_Service {
         try {
             Files.delete(sdsFilePath);
             sdsRepository.delete(sdsToRemove);
+            log.info("Usunięto SDS o UUID = %s.".formatted(uuid.toString()));
         } catch (IOException ioe) {
             throw new SdsToDeleteNotFoundException(uuid.toString());
         }
