@@ -33,7 +33,7 @@ public class SDS_Controller {
         }
 
         @DeleteMapping("/{uuid}")
-        public ResponseEntity deleteByUuid(@PathVariable(name="uuid") UUID uuid) {
+        public ResponseEntity<String> deleteByUuid(@PathVariable(name="uuid") UUID uuid) {
             sdsService.deleteByUuid(uuid);
             return ResponseEntity.status(HttpStatus.OK).body("Udało się usunąć kartę charakterystyki z bazy danych.");
         }
