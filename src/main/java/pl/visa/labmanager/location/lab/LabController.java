@@ -20,7 +20,7 @@ public class LabController {
 
     @PostMapping("/")
     public ResponseEntity<LaboratoryDTO> addLab(@RequestBody Laboratory laboratory) {
-        return ResponseEntity.status(HttpStatus.OK).body(labService.addLaboratory(laboratory.getLaboratoryName()));
+        return ResponseEntity.status(HttpStatus.OK).body(labService.addLaboratory(laboratory));
     }
 
     @GetMapping("/all")

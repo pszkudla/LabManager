@@ -15,9 +15,10 @@ public class LabService {
         this.labRepository = labRepository;
     }
 
-    public LaboratoryDTO addLaboratory(String name) {
+    public LaboratoryDTO addLaboratory(Laboratory inputLab) {
         Laboratory lab = new Laboratory();
-        lab.setLaboratoryName(name);
+        lab.setLaboratoryName(inputLab.getLaboratoryName());
+        lab.setRoomNumber(inputLab.getRoomNumber());
         return labRepository.save(lab).getLabDTO();
     }
 
