@@ -18,9 +18,7 @@ async function addCabinet(event) {
     const labUuid = document.getElementById("labSelector").value;
     let map = {"labUuid": labUuid, "cabinetName": cabinetName};
     const cabinetPost = await fetch(`http://localhost:8080/cabinet/`, {
-        "method": "POST", "body": JSON.stringify(map),   headers: {
-            "Content-Type": "application/json",
-        }
+        "method": "POST", "body": JSON.stringify(map), headers: {"Content-Type": "application/json"}
     });
     const cabinetJson = await cabinetPost.json()
     console.log(cabinetJson);

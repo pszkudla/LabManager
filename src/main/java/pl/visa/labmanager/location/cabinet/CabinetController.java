@@ -34,19 +34,9 @@ public class CabinetController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<String> addCabinet(@RequestBody Map<String, String> map){
-        Cabinet addedCabinet = new Cabinet();
-        addedCabinet.setCabinetName(map.get("cabinetName"));
-        Optional<Laboratory> cabinetLabOpt = labService.getLabFromUuid(UUID.fromString(map.get("labUuid")));
-        if (cabinetLabOpt.isPresent()) {
-            Laboratory cabinetLab = cabinetLabOpt.get();
-            addedCabinet.setLaboratory(cabinetLab);
-            cabinetService.addCabinet(addedCabinet);
-            return ResponseEntity.status(HttpStatus.OK).body("Pomyślnie dodano szafkę do laboratorium.");
-        }
-        else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Nie odnaleziono laboratorium o podanym UUID.");
-        }
+    public ResponseEntity<CabinetDtoOut> addCabinet(@RequestBody Map<String, String> map) {
+        CabinetDtoOut dto = cabinetService.addCabinet(map);
+        return ResponseEntity.status(HttpStatus.OK).body(dto);
     }
 
     @DeleteMapping("/{uuid}")

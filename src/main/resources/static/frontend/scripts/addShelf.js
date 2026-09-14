@@ -26,13 +26,9 @@ async function updateCabinetOptions() {
         cabinetElement.setAttribute("value", cabinet.uuid);
         cabinetSelector.append(cabinetElement);
     }
-
-
 }
 
 async function addShelf(event) {
-
-
     event.preventDefault();
     const shelfName = document.getElementById("shefNameInput").value;
     const cabinetUuid = cabinetSelector.value;
@@ -52,6 +48,4 @@ async function addShelf(event) {
         console.log(responseText);
         document.getElementById("shefNameInput").value = "";
     }
-
-
 }

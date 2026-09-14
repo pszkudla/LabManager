@@ -6,6 +6,7 @@ import pl.visa.labmanager.location.lab.LabRepository;
 import pl.visa.labmanager.location.lab.Laboratory;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -38,16 +39,22 @@ public class CabinetService {
         return cabinetRepository.getCabinetByUuid(uuid);
     };
 
-    public void addCabinet(Cabinet cabinet) {
+    public CabinetDtoOut addCabinet(Map<String, String> map) {
         Cabinet cabinetToAdd = new Cabinet();
-        cabinetToAdd.setCabinetName(cabinet.getCabinetName());
-        cabinetToAdd.setLaboratory(cabinet.getLaboratory());
-        cabinetRepository.save(cabinetToAdd);
+        Laboratory lab = labRepository
+                .getLabFromUuid(UUID.fromString(map.get("labUuid")))
+                .orElseThrow(() -> new ResourceNotFoundException("Nie udało się znaleźć laboratorium o UUID = %s przy próbie dodania szefy.".formatted(map.get("labUuid"))));
+        cabinetToAdd.setLaboratory(lab);
+        cabinetToAdd.setCabinetName(map.get("cabinetName"));
+        Cabinet addedCabinet = cabinetRepository.save(cabinetToAdd);
+        return addedCabinet.getDtoOut();
     }
+
 
     public Optional<CabinetDtoOut> getDtoByUuid(UUID uuid) {
         return cabinetRepository.getCabinetByUuid(uuid).map(Cabinet::getDtoOut);
     }
+
 
     public Optional<Cabinet> deleteByUuid(UUID uuid) {
         Optional<Cabinet> cabinet = cabinetRepository.getCabinetByUuid(uuid);
@@ -73,6 +80,12 @@ public class CabinetService {
         cabinetToEdit.setLaboratory(lab);
         cabinetToEdit.setCabinetName(dtoIn.getCabinetName());
         return cabinetRepository.save(cabinetToEdit).getDtoOut();
+    }
+
+
+    public List<Cabinet> getAllCabinetsInLab(UUID labUuid) {
+        Laboratory lab = labRepository.getLabFromUuid(labUuid).orElseThrow(() -> new ResourceNotFoundException("Nie odnaleziono laboratorium o UUID = %s przy próbie wylistowania wszystkich szaf w nim.".formatted(labUuid)));
+        return cabinetRepository.getAllCabinetsInLab(lab);
     }
 
 
