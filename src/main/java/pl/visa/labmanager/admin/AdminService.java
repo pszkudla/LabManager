@@ -2,11 +2,20 @@ package pl.visa.labmanager.admin;
 
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvException;
+import lombok.extern.slf4j.Slf4j;
 import org.openscience.cdk.DefaultChemObjectBuilder;
+import org.openscience.cdk.exception.CDKException;
 import org.openscience.cdk.exception.InvalidSmilesException;
 import org.openscience.cdk.interfaces.IAtomContainer;
+import org.openscience.cdk.interfaces.IMolecularFormula;
+import org.openscience.cdk.qsar.DescriptorValue;
+import org.openscience.cdk.qsar.descriptors.molecular.WeightDescriptor;
+import org.openscience.cdk.qsar.result.DoubleResult;
 import org.openscience.cdk.smarts.SmartsPattern;
 import org.openscience.cdk.smiles.SmilesParser;
+import org.openscience.cdk.tools.CDKHydrogenAdder;
+import org.openscience.cdk.tools.manipulator.AtomContainerManipulator;
+import org.openscience.cdk.tools.manipulator.MolecularFormulaManipulator;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import pl.visa.labmanager.container.Container;
@@ -25,6 +34,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
 
+@Slf4j
 @Service
 public class AdminService {
     private final SubstanceRepository substanceRepository;
@@ -191,5 +201,40 @@ public class AdminService {
         }
     }
 
+    @Async
+    public void addSubstanceFormulaAndWeight() {
+        SmilesParser sp = new SmilesParser(DefaultChemObjectBuilder.getInstance());
+        List<Substance> allSubstances = substanceRepository.getAllSubstancesWithSmiles();
+        List<Substance> modifiedSubstances = new ArrayList<>();
+        for (Substance substance : allSubstances) {
+            try {
+                IAtomContainer molecule = sp.parseSmiles(substance.getSmiles());
+                AtomContainerManipulator.percieveAtomTypesAndConfigureAtoms(molecule);
 
+                CDKHydrogenAdder hydrogenAdder =
+                CDKHydrogenAdder.getInstance(
+                        DefaultChemObjectBuilder.getInstance());
+
+                hydrogenAdder.addImplicitHydrogens(molecule);
+                IMolecularFormula formula = MolecularFormulaManipulator.getMolecularFormula(molecule);
+                String molecularFormula = MolecularFormulaManipulator.getString(formula);
+
+                WeightDescriptor descriptor = new WeightDescriptor();
+                DescriptorValue value = descriptor.calculate(molecule);
+                DoubleResult molecularWeight = (DoubleResult) value.getValue();
+
+                substance.setMolecularFormula(molecularFormula);
+                substance.setMolecularWeight(molecularWeight.doubleValue());
+                modifiedSubstances.add(substance);
+
+            } catch (InvalidSmilesException ise) {
+                System.out.println(ise.getCause());
+                throw new InvalidSubstanceDescriptorException("Substancja o SMILES = %s nie istnieje.".formatted(substance.getSmiles()));
+            } catch (CDKException cdke) {
+                System.out.println(cdke.getCause());
+                log.info("Nie udało się przeanalizować substancji o SMILES = %s.".formatted(substance.getSmiles()));
+            }
+            substanceRepository.saveAll(modifiedSubstances);
+        }
+    }
 }
