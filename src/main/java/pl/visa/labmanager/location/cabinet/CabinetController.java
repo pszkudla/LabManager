@@ -54,6 +54,16 @@ public class CabinetController {
         return ResponseEntity.status(HttpStatus.OK).body(cabinetService.updateCabinet(cabinetDtoIn));
     }
 
+    @GetMapping("/byLabUuid/{labUuid}")
+    public ResponseEntity<List<CabinetDtoOut>> getCabinetsByLabUuid(@PathVariable UUID labUuid) {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(
+                        cabinetService.getAllCabinetsInLab(labUuid).stream()
+                                .map(Cabinet::getDtoOut)
+                                .toList()
+                );
+    }
+
 
 
 }
