@@ -1,5 +1,6 @@
 package pl.visa.labmanager.substance;
 
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

@@ -82,4 +82,10 @@ public class SubstanceController {
         List<SubstanceDtoOut> allSubstances = substanceService.getSubstncesByIupacAndAltNames(subs);
         return ResponseEntity.status(HttpStatus.OK).body(allSubstances);
     }
+
+    @GetMapping("/getByNamesNativeQuery/{substring}")
+    public ResponseEntity<List<SubstanceDtoOut>> getSubsByNamesNative(@PathVariable(name="substring") String substring) {
+        List<SubstanceDtoOut> substances = substanceService.getSubstancesByNameNativeQuery(substring).stream().map(Substance::getDtoOutFromSubstance).toList();
+        return ResponseEntity.status(HttpStatus.OK).body(substances);
+    }
 }

@@ -166,5 +166,10 @@ public class SubstanceService {
         return substanceRepository.getSubstancesByIupacAndAltNames(substring).stream().map(Substance::getDtoOutFromSubstance).toList();
     }
 
+    public List<Substance> getSubstancesByNameNativeQuery(String substring) {
+        List<Substance> substanceDtos = substanceRepository.getSubstanceByNamesNativeQuery(substring);
+        return substanceDtos;
+    }
+
 
 }
