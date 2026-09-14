@@ -29,6 +29,11 @@ public class CabinetService {
                 .map(Cabinet::getDtoOut).toList();
     }
 
+    public CabinetDtoOut getCabinetDtoByUuid(UUID uuid) {
+        Cabinet cabinet = cabinetRepository.getCabinetByUuid(uuid).orElseThrow(() -> new ResourceNotFoundException("Nie udało się znaleźć szafki o UUID = %s przy próbie uruchomienia metody CabinetService.getCabinetDtoByUuid.".formatted(uuid)));
+        return cabinet.getDtoOut();
+    }
+
     public Optional<Cabinet> findCabinetByUuid(UUID uuid) {
         return cabinetRepository.getCabinetByUuid(uuid);
     };

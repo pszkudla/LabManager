@@ -1,7 +1,6 @@
 package pl.visa.labmanager.location.cabinet;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.visa.labmanager.location.lab.LabService;
@@ -29,13 +28,9 @@ public class CabinetController {
     }
 
     @GetMapping("/{uuid}")
-    public ResponseEntity getCabinetByUuid(@PathVariable(name="uuid") UUID uuid) {
-        Optional<CabinetDtoOut> cabinetDTO = cabinetService.getDtoByUuid(uuid);
-        if (cabinetDTO.isPresent()) {
-            return ResponseEntity.status(HttpStatus.OK).body(cabinetDTO.get());
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Nie znaleziono szafy o podanym UUID.");
-        }
+    public ResponseEntity<CabinetDtoOut> getCabinetByUuid(@PathVariable(name="uuid") UUID uuid) {
+        CabinetDtoOut cabinet = cabinetService.getCabinetDtoByUuid(uuid);
+        return ResponseEntity.status(HttpStatus.OK).body(cabinet);
     }
 
     @PostMapping("/")
