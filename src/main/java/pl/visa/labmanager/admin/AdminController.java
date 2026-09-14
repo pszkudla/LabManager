@@ -20,11 +20,10 @@ public class AdminController {
     }
 
     @PostMapping("/addRandomContainers")
-    public ResponseEntity addRandomContainers(@RequestBody Map<String, String> map) {
+    public ResponseEntity<List<ContainerDtoOut>> addRandomContainers(@RequestBody Map<String, String> map) {
         UUID zoneUuid = UUID.fromString(map.get("zoneUuid"));
         Integer numberOfContainers = Integer.parseInt(map.get("numberOfContainers"));
         String substanceCategory = map.get("subsCategory");
-
 
         List<ContainerDtoOut> dtos = adminService.addRandomContainers(substanceCategory, zoneUuid, numberOfContainers);
 
@@ -32,20 +31,26 @@ public class AdminController {
     }
 
     @PostMapping("/addMissingRandomSuppliers")
-    public ResponseEntity addMissingRandomSuppliers() {
+    public ResponseEntity<String> addMissingRandomSuppliers() {
         adminService.addMissingSuppliers();
         return ResponseEntity.status(HttpStatus.OK).body("Dodano brakujących dostawców.");
     }
 
     @PostMapping("/addGroupsData")
-    public ResponseEntity addGroupsData() {
+    public ResponseEntity<Void> addGroupsData() {
         adminService.addSubstancesGroupData();
         return ResponseEntity.accepted().build();
     }
 
     @PostMapping("/addAltNames")
-    public ResponseEntity addAltNames() {
+    public ResponseEntity<Void> addAltNames() {
         adminService.addAltNames();
+        return ResponseEntity.accepted().build();
+    }
+
+    @PostMapping("/addFormulaAndWeight")
+    public ResponseEntity<Void> addFormulaAndWeight() {
+        adminService.addSubstanceFormulaAndWeight();
         return ResponseEntity.accepted().build();
     }
 
