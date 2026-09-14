@@ -18,29 +18,30 @@ public class SubstanceCategoryController {
     }
 
     @PostMapping("/")
-    public SubstanceCategory addSubstanceCategory(@RequestBody SubstanceCategoryDtoIn dto) {
+    public ResponseEntity<SubstanceCategory> addSubstanceCategory(@RequestBody SubstanceCategoryDtoIn dto) {
         SubstanceCategory createdCategory =  substanceCategoryService.addSubstanceCategory(dto.getName());
-        return createdCategory;
+        return ResponseEntity.status(HttpStatus.OK).body(createdCategory);
     }
 
     @GetMapping("/{uuid}")
-    public SubstanceCategoryDtoOut getSubstanceCategoryByUuid(@PathVariable(name="uuid") UUID uuid) {
-        return substanceCategoryService.getSubstanceCategoryByUuid(uuid).getDto();
+    public ResponseEntity<SubstanceCategoryDtoOut> getSubstanceCategoryByUuid(@PathVariable(name="uuid") UUID uuid) {
+        return ResponseEntity.status(HttpStatus.OK).body(substanceCategoryService.getSubstanceCategoryByUuid(uuid).getDto());
     }
 
     @GetMapping("/")
-    public List<SubstanceCategoryDtoOut> getAllCategoiries() {
-        return substanceCategoryService.getAllCategories();
+    public ResponseEntity<List<SubstanceCategoryDtoOut>> getAllCategoiries() {
+        return ResponseEntity.status(HttpStatus.OK).body(substanceCategoryService.getAllCategories());
     }
 
 
     @DeleteMapping("/{uuid}")
-    public void deleteCategory(UUID uuid) {
+    public ResponseEntity<String> deleteCategory(UUID uuid) {
         substanceCategoryService.deleteCategory(uuid);
+        return ResponseEntity.status(HttpStatus.OK).body("Pomyślnie usunięto kateogrię substancji o UUID = %s.".formatted(uuid));
     }
 
     @PostMapping("/addSubstanceToCategoryByCas")
-    public ResponseEntity addSubstanceToCategoryByCas(@RequestBody Map<String, String> map) {
+    public ResponseEntity<String> addSubstanceToCategoryByCas(@RequestBody Map<String, String> map) {
         String cas = map.get("cas");
         UUID categoryUuid = UUID.fromString(map.get("categoryUuid"));
         substanceCategoryService.addSubstancesToCategoriesBySubstanceCas(cas, categoryUuid);
@@ -48,7 +49,7 @@ public class SubstanceCategoryController {
     }
 
     @PostMapping("/addSubstanceToCategoryByUuid")
-    public ResponseEntity addSubstanceToCategoryByUuid(@RequestBody Map<String, String> map) {
+    public ResponseEntity<String> addSubstanceToCategoryByUuid(@RequestBody Map<String, String> map) {
         String substanceUuid = map.get("substanceUuid");
         UUID categoryUuid = UUID.fromString(map.get("categoryUuid"));
         substanceCategoryService.addSubstanceToCategoryByUuids(categoryUuid, substanceUuid);
@@ -56,7 +57,7 @@ public class SubstanceCategoryController {
     }
 
     @DeleteMapping("/deleteSubstanceFromCategory")
-    public ResponseEntity deleteSubstanceFromCategory(@RequestBody Map<String, String> map) {
+    public ResponseEntity<String> deleteSubstanceFromCategory(@RequestBody Map<String, String> map) {
         String substanceUuid = map.get("substanceUuid");
         UUID categoryUuid = UUID.fromString(map.get("categoryUuid"));
         substanceCategoryService.deleteSubstanceFromCategory(substanceUuid, categoryUuid);
@@ -64,7 +65,7 @@ public class SubstanceCategoryController {
     }
 
     @PutMapping("/")
-    public ResponseEntity changeSubstanceCategoryName(@RequestBody SubstanceCategoryDtoIn dtoIn) {
+    public ResponseEntity<SubstanceCategory> changeSubstanceCategoryName(@RequestBody SubstanceCategoryDtoIn dtoIn) {
         SubstanceCategory sc =  substanceCategoryService.editSubstanceCategory(dtoIn);
         return ResponseEntity.status(HttpStatus.OK).body(sc);
     }
