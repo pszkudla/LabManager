@@ -13,6 +13,29 @@
     </div>
 
     <div id="mainContent">
+        <h3>Nazwa strefy</h3>
+        <input type="text" id="zoneNameInput"/>
+
+        <h3>Wybierz laboratorium</h3>
+        <select id="labSelector" onchange="updateCabinetOptions()">
+
+        </select>
+
+        <h3>Wybierz szafę</h3>
+        <select id="cabinetSelector" onchange="updateShelfOptions()">
+
+        </select>
+
+        <h3>Wybierz półkę</h3>
+        <select id="shelfSelector">
+
+        </select>
+
+
+        <br/>
+
+        <button class="formButton" onclick="addZone(event)">Dodaj strefę</button>
+
 
     </div>
 
@@ -22,6 +45,7 @@
 
 </div>
 <script src="scripts/loadLeftMenu.js"></script>
+<script src="scripts/addZone.js"></script>
 
 </body>
 </html>

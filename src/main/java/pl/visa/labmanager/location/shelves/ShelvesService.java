@@ -77,4 +77,9 @@ public class ShelvesService {
         }
         return shelfToRemove;
     }
+
+    public List<Shelf> getAllShelvesFromCabinet(UUID cabinetUuid) {
+        Cabinet cabinet = cabinetRepository.getCabinetByUuid(cabinetUuid).orElseThrow(() -> new ResourceNotFoundException("Nie znaleziono szafki o UUID = %s przy wylistowania wszystkich jej półek.".formatted(cabinetUuid)));
+        return shelvesRepository.getAllShelvesFromCabinet(cabinet);
+    }
 }

@@ -35,7 +35,7 @@ public class ZoneController {
     }
 
     @PostMapping("/")
-    public ResponseEntity addZone(Map<String, String> map) {
+    public ResponseEntity<String> addZone(@RequestBody Map<String, String> map) {
         String shelfUuid = map.get("shelfUuid");
         String zoneName = map.get("zoneName");
         UUID shelfUuidAsUuid = UUID.fromString(shelfUuid);

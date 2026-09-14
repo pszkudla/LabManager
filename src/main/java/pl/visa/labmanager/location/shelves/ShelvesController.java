@@ -69,6 +69,13 @@ public class ShelvesController {
     }
 
 
+    @GetMapping("/allShelvesByCabinetUuid/{uuid}")
+    public ResponseEntity<List<ShelfDtoOut>> getAllShelvesByCabinetUuid(@PathVariable(name="uuid") UUID cabinetUuid) {
+        List<ShelfDtoOut> shelves = shelvesService.getAllShelvesFromCabinet(cabinetUuid).stream().map(Shelf::getShelfDTO).toList();
+        return ResponseEntity.status(HttpStatus.OK).body(shelves);
+    }
+
+
 
 
 
