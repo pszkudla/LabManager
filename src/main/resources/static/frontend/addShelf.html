@@ -13,7 +13,24 @@
     </div>
 
     <div id="mainContent">
+        <form class="defaultForm">
+            <h3>Nazwa półki</h3>
+            <input type="text" id="shefNameInput"/>
 
+            <h3>Wybierz laboratorium</h3>
+            <select id="labSelector" onchange="updateCabinetOptions()">
+
+            </select>
+
+            <h3>Wybierz szafę</h3>
+            <select id="cabinetSelector">
+
+            </select> <br/>
+
+            <button class="formButton" onclick="addShelf(event)">Dodaj laboratorium</button>
+
+
+        </form>
     </div>
 
     <div class="navigation" id="rightNav">
@@ -22,6 +39,7 @@
 
 </div>
 <script src="scripts/loadLeftMenu.js"></script>
+<script src="scripts/addShelf.js"></script>
 
 </body>
 </html>
