@@ -6,6 +6,7 @@ import pl.visa.labmanager.location.shelves.Shelf;
 import pl.visa.labmanager.location.shelves.ShelvesRepository;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -59,7 +60,16 @@ public class ZoneService {
         zone.setZoneName(dto.getZoneName());
         zoneRepository.save(zone);
         return zone;
+    }
 
+    public List<Zone> getAllZonesFromShelf(UUID shelfUuid) {
+        Shelf shelf = shelvesRepository
+                .getShelfByUuid(shelfUuid)
+                .orElseThrow(
+                        () -> new ResourceNotFoundException("Nie udało się odnaleźć półki o UUID = %s przy próbie wylistowania wszystkich jej stref.".formatted(shelfUuid))
+                );
+        List<Zone> zonesInShelf = zoneRepository.getAllZonesFromShelf(shelf);
+        return zonesInShelf;
     }
 
 

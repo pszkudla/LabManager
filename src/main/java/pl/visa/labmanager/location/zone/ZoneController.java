@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.visa.labmanager.location.shelves.Shelf;
+import pl.visa.labmanager.location.shelves.ShelfDtoOut;
 import pl.visa.labmanager.location.shelves.ShelvesService;
 
 import java.util.List;
@@ -64,6 +65,12 @@ public class ZoneController {
     public ResponseEntity deleteZone(@PathVariable(name="uuid") UUID uuid) {
         zoneService.deleteZoneByUuid(uuid);
         return ResponseEntity.ok("Usunięto strefę o UUID równym %s.".formatted(uuid));
+    }
+
+    @GetMapping("/allZonesByShelfUuid/{uuid}")
+    public ResponseEntity<List<ZoneDtoOut>> getZonesFromShelfUuid(@PathVariable(name = "uuid") UUID uuid) {
+        List<ZoneDtoOut> dtos = zoneService.getAllZonesFromShelf(uuid).stream().map(Zone::getDto).toList();
+        return ResponseEntity.status(HttpStatus.OK).body(dtos);
     }
 
 }
