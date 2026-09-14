@@ -1,6 +1,7 @@
 package pl.visa.labmanager.location.lab;
 
 import org.springframework.stereotype.Service;
+import pl.visa.labmanager.errors.ResourceNotFoundException;
 
 import java.util.List;
 import java.util.Optional;
@@ -20,8 +21,16 @@ public class LabService {
         return labRepository.save(lab).getLabDTO();
     }
 
-    public Optional<Laboratory> getLabFromUuid(UUID uuid)  {
-        return labRepository.getLabFromUuid(uuid);
+    public Laboratory getLabFromUuid(UUID uuid) {
+        Laboratory lab =  labRepository.getLabFromUuid(uuid).orElseThrow(() -> new ResourceNotFoundException("Nie znaleziono laboratorium o UUID = %s.".formatted(uuid)));
+        return lab;
+    }
+
+
+    public LaboratoryDTO getLabDtoFromUuid(UUID uuid)  {
+        Laboratory lab =  labRepository.getLabFromUuid(uuid).orElseThrow(() -> new ResourceNotFoundException("Nie znaleziono laboratorium o UUID = %s.".formatted(uuid)));
+        LaboratoryDTO dto = lab.getLabDTO();
+        return dto;
     }
 
     public List<Laboratory> findAllLabs() { return labRepository.findAll(); }

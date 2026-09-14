@@ -30,13 +30,9 @@ public class LabController {
     }
 
     @GetMapping("/{uuid}")
-    public ResponseEntity getLabDtoByUuid(@PathVariable(name="uuid") UUID uuid) {
-        Optional<Laboratory> lab = labService.getLabFromUuid(uuid);
-        if (lab.isPresent()) {
-            return ResponseEntity.ok().body(lab.get());
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("loboratorium o podanym uuid nie istnieje.");
-        }
+    public ResponseEntity<Laboratory> getLabDtoByUuid(@PathVariable(name="uuid") UUID uuid) {
+        Laboratory lab = labService.getLabFromUuid(uuid);
+        return ResponseEntity.ok().body(lab);
     }
 
     @DeleteMapping("/{uuid}")
