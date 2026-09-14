@@ -44,6 +44,16 @@ public class Container {
     private String purity;
 
     @JsonIgnore
+    public ContainerDtoForSubstanceModal getContainerDtoForSubstanceModal() {
+        ContainerDtoForSubstanceModal dto = new ContainerDtoForSubstanceModal();
+        dto.setCapacity(this.getCapacity());
+        dto.setContainerNotes(this.notes);
+        dto.setContainerUuid(this.uuid);
+        dto.setZoneString(this.getZone().getZoneString());
+        return dto;
+    }
+
+    @JsonIgnore
     public ContainerDtoOut getDtoOut() {
         ContainerDtoOut returnedDto = new ContainerDtoOut();
         returnedDto.setCapacity(this.getCapacity());

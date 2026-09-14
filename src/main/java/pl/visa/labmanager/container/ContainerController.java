@@ -47,6 +47,11 @@ public class ContainerController {
         return ResponseEntity.status(HttpStatus.OK).body("Pomyśnie usunięto pojemnik o UUID = %s.".formatted(uuid));
     }
 
+    @GetMapping("/findContainersBySubstance/{uuid}")
+    public ResponseEntity getContainersBySubsUuid(@PathVariable(name="uuid") String uuid) {
+        return ResponseEntity.status(HttpStatus.OK).body(containerService.getContainersBySubstanceUuid(uuid));
+    }
+
 
 
 

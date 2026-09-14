@@ -89,6 +89,12 @@ public class ContainerService {
         return container.getDtoOut();
     }
 
+    public List<ContainerDtoForSubstanceModal> getContainersBySubstanceUuid(String uuid) {
+        Substance substance = substanceRepository.findByUuid(uuid).orElseThrow(() -> new ResourceNotFoundException("Nie odnaleziono substancji o UUID = %s podczas próby wyszukania pojemników z nią."));
+        List<Container> containersWithSubstance = containerRepository.getContainersBySubstance(substance);
+        return containersWithSubstance.stream().map(Container::getContainerDtoForSubstanceModal).toList();
+    }
+
 
 
 
