@@ -150,6 +150,8 @@ table.tableStyle, td, th {
 
 .modalContentContainer {
     text-align: center;
+}
 
-
+.formButton {
+    margin-top: 20px;
 }
