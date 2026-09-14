@@ -44,6 +44,9 @@ public class Substance {
     @Size(min=27, max=27, message = "Klucz InChI powinien mieć dokładnie 27 znaków.")
     private String inchiKey;
 
+    private double molecularWeight;
+    private String molecularFormula;
+
     private String uuid;
 
     private Boolean isEster;
@@ -89,7 +92,7 @@ public class Substance {
     public String getPhotoDir() {
         Path photoPath = Paths.get(LabManagerApplication.dotenv.get("photosPath"), uuid + ".png");
         if (Files.exists(photoPath)) {
-            return photoPath.toString();
+            return uuid + ".png";
         }
         else {
             return null;
