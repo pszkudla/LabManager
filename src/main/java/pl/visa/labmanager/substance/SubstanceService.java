@@ -35,6 +35,10 @@ public class SubstanceService {
         return substanceRepository.getSubstancesFromSubstring(substring);
     }
 
+    public List<SubstanceDtoOut> getSubstanceDtosFromsubstring(String substring) {
+        return substanceRepository.getSubstancesFromSubstring(substring).stream().map(Substance::getDtoOutFromSubstance).toList();
+    }
+
     public List<Substance> getSubstancesByCasFragment(String casSubs) {
         return substanceRepository.getSubstancesByCasFragment(casSubs);
     }

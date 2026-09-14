@@ -25,8 +25,8 @@ public class SubstanceController {
     }
 
     @GetMapping("/fromSubstring/{subs}")
-    public ResponseEntity<List<Substance>> getFromSubs(@PathVariable(name="subs") String substring) {
-        return ResponseEntity.status(HttpStatus.OK).body(substanceService.getSubstancesFromsubstring(substring));
+    public ResponseEntity<List<SubstanceDtoOut>> getFromSubs(@PathVariable(name="subs") String substring) {
+        return ResponseEntity.status(HttpStatus.OK).body(substanceService.getSubstanceDtosFromsubstring(substring));
     }
 
     @GetMapping("/fromCas/{casSubs}")
