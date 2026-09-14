@@ -13,7 +13,19 @@
     </div>
 
     <div id="mainContent">
+        <form class="defaultForm">
+            <h3>Podaj nazwę szafki</h3>
+            <input type="text" id="cabinetNameInput"/>
 
+            <h3>Wybierz laboratorium</h3>
+            <select id="labSelector">
+
+            </select>
+            <br/>
+
+            <button class="formButton" onclick="addCabinet(event)">Dodaj szafę</button>
+
+        </form>
     </div>
 
     <div class="navigation" id="rightNav">
@@ -22,6 +34,7 @@
 
 </div>
 <script src="scripts/loadLeftMenu.js"></script>
+<script src="scripts/addCabinet.js"></script>
 
 </body>
 </html>
