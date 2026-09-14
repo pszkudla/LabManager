@@ -37,7 +37,7 @@ public class SDS_Utils {
                     .orElseThrow(() -> new SDS_Download_Exeption(link));
 
 
-
+            driver.close();
             return Paths.get(tempDirectory.toString(), downloadedPdfName);
 
 
