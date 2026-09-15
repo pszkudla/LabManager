@@ -15,11 +15,9 @@ import java.util.UUID;
 @RequestMapping("/cabinet")
 public class CabinetController {
     private final CabinetService cabinetService;
-    private final LabService labService;
 
     public CabinetController(CabinetService cabinetService, LabService labService) {
         this.cabinetService = cabinetService;
-        this.labService = labService;
     }
 
     @GetMapping("/all")
@@ -41,12 +39,8 @@ public class CabinetController {
 
     @DeleteMapping("/{uuid}")
     public ResponseEntity<String> deleteCabinet(@PathVariable(name="uuid") UUID uuid) {
-        Optional<Cabinet> cabinet = cabinetService.deleteByUuid(uuid);
-        if (cabinet.isPresent()) {
-            return ResponseEntity.status(HttpStatus.OK).body("Zmodyfikowano szafkę o UUID = %s.".formatted(uuid));
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Nie znaleziono szafki o podanym UUID.");
-        }
+        cabinetService.deleteByUuid(uuid);
+        return ResponseEntity.status(HttpStatus.OK).body("Usunięto szafkę o UUID = %s.".formatted(uuid));
     }
 
     @PutMapping("/")

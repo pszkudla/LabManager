@@ -51,17 +51,12 @@ public class CabinetService {
     }
 
 
-    public Optional<CabinetDtoOut> getDtoByUuid(UUID uuid) {
-        return cabinetRepository.getCabinetByUuid(uuid).map(Cabinet::getDtoOut);
-    }
 
 
-    public Optional<Cabinet> deleteByUuid(UUID uuid) {
-        Optional<Cabinet> cabinet = cabinetRepository.getCabinetByUuid(uuid);
-        if (cabinet.isPresent()) {
-            cabinetRepository.delete(cabinet.get());
-        }
-        return cabinet;
+
+    public void deleteByUuid(UUID uuid) {
+        Cabinet cabinet = cabinetRepository.getCabinetByUuid(uuid).orElseThrow(() -> new ResourceNotFoundException("Nie udało się znaleźć szafy o UUID = %s podczas próby jej usuwania.".formatted(uuid)));
+
     }
 
     public CabinetDtoOut updateCabinet(CabinetDtoIn dtoIn) {
@@ -87,6 +82,7 @@ public class CabinetService {
         Laboratory lab = labRepository.getLabFromUuid(labUuid).orElseThrow(() -> new ResourceNotFoundException("Nie odnaleziono laboratorium o UUID = %s przy próbie wylistowania wszystkich szaf w nim.".formatted(labUuid)));
         return cabinetRepository.getAllCabinetsInLab(lab);
     }
+
 
 
 }
