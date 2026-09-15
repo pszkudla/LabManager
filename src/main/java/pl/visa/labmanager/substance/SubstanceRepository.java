@@ -53,6 +53,6 @@ public interface SubstanceRepository extends JpaRepository<Substance, Long> {
     @Query("select distinct s from Substance s left join s.alternativeNames an where lower(s.iupacName) like lower(concat('%', ?1, '%'))  or lower(an.name) like lower(concat('%', ?1, '%'))")
     List<Substance> getSubstancesByIupacAndAltNames(String substring);
 
-    @Query(value = "SELECT s.id, s.iupac_name, s.uuid, asn.name AS alternative_names, s.cas_number AS cas_number, s.smiles, s.inchi, s.inchi_key, s.is_aromatic, s.is_ester, s.is_carboxylic_acid, s.molecular_formula, s.molecular_weight FROM substances s LEFT JOIN alt_substance_names asn ON s.id = asn.substance_id WHERE s.iupac_name LIKE CONCAT('%', ?1, '%') OR asn.name LIKE CONCAT('%', ?1, '%')", nativeQuery = true)
+    @Query(value = "SELECT s.id, s.iupac_name, s.uuid, asn.name AS alternative_names, s.cas_number AS cas_number, s.smiles, s.inchi, s.inchi_key, s.is_aromatic, s.is_ester, s.is_carboxylic_acid, s.molecular_formula, s.molecular_weight FROM substances s LEFT JOIN alt_substance_names asn ON s.id = asn.substance_id WHERE s.iupac_name LIKE CONCAT('%', ?1, '%') OR asn.name LIKE CONCAT('%', ?1, '%') ORDER BY LENGTH(s.iupac_name)", nativeQuery = true)
     List<Substance> getSubstanceByNamesNativeQuery(String substring);
 }
