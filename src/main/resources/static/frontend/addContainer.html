@@ -13,7 +13,53 @@
             </div>
 
             <div id="mainContent">
+                <h3>Wybierz laboratorium</h3>
+                <select id="labSelector" onchange="updateCabinetOptions()" class="maxWidth">
 
+                </select>
+
+                <h3>Wybierz szafę</h3>
+                <select id="cabinetSelector" onchange="updateShelfOptions()" class="maxWidth">
+
+                </select>
+
+                <h3>Wybierz półkę</h3>
+                <select id="shelfSelector" onchange="updateZoneOptions()" class="maxWidth">
+
+                </select>
+
+                <h3>Wybierz strefę</h3>
+                <select id="zoneSelector" class="maxWidth">
+
+                </select>
+
+                <input type="hidden" id="substanceUuidHiddenInput" class="maxWidth" />
+
+                <h3>Wybierz substancję</h3>
+                <div id="dropdownContainer">
+                    <input type="text" id="substanceNameInput" onkeyup="searchSubstancesFromSubstring()"/>
+                    <div id="substanceOptions">
+
+                    </div>
+                </div>
+
+                <h3>Pojemność</h3>
+                <input type="text" id="capacityInputElement" class="maxWidth" />
+
+                <h3>Dostawca</h3>
+                <input type="text" id="supplierInputElement" class="maxWidth" />
+
+                <h3>Czystość</h3>
+                <input type="text" id="purityInputElement" class="maxWidth" />
+
+                <h3>Uwagi</h3>
+                <input type="text" id="notesInputElement" class="maxWidth"/> <br/>
+
+                <button class="formButton" ondblclick="addContainerToDb()">Dodaj opakowanie</button>
+
+
+
+                <br/>
             </div>
 
             <div class="navigation" id="rightNav">
@@ -22,6 +68,7 @@
 
         </div>
         <script src="scripts/loadLeftMenu.js"></script>
+        <script src="scripts/addContainer.js"></script>
 
     </body>
 </html>

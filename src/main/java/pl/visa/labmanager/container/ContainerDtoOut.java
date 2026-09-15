@@ -19,4 +19,5 @@ public class ContainerDtoOut {
     private ZoneDtoOut zoneDto;
     private String uuid;
     private String supplier;
+    private String purity;
 }

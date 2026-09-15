@@ -155,3 +155,52 @@ table.tableStyle, td, th {
 .formButton {
     margin-top: 20px;
 }
+
+#dropdownContainer {
+    width:80%;
+    margin-left: calc(10% - 1px);
+    margin-right: calc(10% - 1px);
+    max-height: 300px;
+}
+
+.substanceDropdownOption {
+    height: 30px;
+}
+
+.substanceOption {
+    width: 100%;
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+    display: flex;
+    min-height:30px;
+    border-bottom: 1px solid black;
+    background-color: bisque;
+}
+
+.substanceOption:hover {
+    font-weight: 700;
+}
+
+.substanceNameEl {
+    width: 70%;
+}
+
+.substanceCasEl {
+    width: 30%;
+}
+
+#substanceNameInput {
+    width: 100%;
+}
+
+#substanceOptions {
+    max-height: 300px;
+    overflow-y: scroll;
+    border-bottom: 1px solid black;
+}
+
+.maxWidth {
+    width: 80%;
+    margin-left: calc(10% - 1px);
+    margin-right: calc(10% - 1px);
+}

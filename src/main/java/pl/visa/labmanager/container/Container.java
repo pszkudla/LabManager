@@ -62,6 +62,7 @@ public class Container {
         returnedDto.setUuid(this.getUuid().toString());
         returnedDto.setSupplier(this.supplier);
         returnedDto.setZoneDto(this.getZone().getDto());
+        returnedDto.setPurity(this.purity);
         return returnedDto;
     }
 
