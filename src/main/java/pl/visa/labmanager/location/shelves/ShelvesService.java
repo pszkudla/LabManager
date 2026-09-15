@@ -44,16 +44,11 @@ public class ShelvesService {
         }
     }
 
-//    public void addShelf(Shelf shelf) {
-//
-//        shelvesRepository.save(shelf);
-//    }
-
     public ShelfDtoOut createShelf(Map<String, String> map) {
         String cabinetUuid = map.get("cabinetUuid");
         UUID cabinetUuidAsUuid = UUID.fromString(cabinetUuid);
         String shelfName = map.get("shelfName");
-        Cabinet cabinet = cabinetService.findCabinetByUuid(cabinetUuidAsUuid);
+        Cabinet cabinet = cabinetRepository.getCabinetByUuid(cabinetUuidAsUuid).orElseThrow(() -> new ResourceNotFoundException(""));
         Shelf shelfToAdd = new Shelf();
         shelfToAdd.setShelfName(shelfName);
         shelfToAdd.setCabinet(cabinet);
