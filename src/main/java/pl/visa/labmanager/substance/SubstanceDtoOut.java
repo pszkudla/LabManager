@@ -15,7 +15,7 @@ import java.util.Set;
 public class SubstanceDtoOut {
     private String iupacName;
     private String alternativeNames;
-    private List<SafetyDataSheet> sdsList;
+//    private List<SafetyDataSheet> sdsList;
     private String casNumber;
     private String smiles;
     private String uuid;

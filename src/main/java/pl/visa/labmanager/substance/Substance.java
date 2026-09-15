@@ -110,7 +110,7 @@ public class Substance {
         returnedDto.setAlternativeNames(this.getAlternativeNames()
                 .stream()
                 .map(AlternativeSubstanceName::getName).collect(Collectors.joining(", ")));
-        returnedDto.setSdsList(this.sdsList);
+//        returnedDto.setSdsList(this.sdsList);
         returnedDto.setPhotoDir(this.getPhotoDir());
         return returnedDto;
     }
