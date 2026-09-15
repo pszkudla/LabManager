@@ -15,6 +15,7 @@ import pl.visa.labmanager.errors.ResourceNotFoundException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Slf4j
@@ -43,12 +44,19 @@ public class SubstanceService {
         return substanceRepository.getSubstancesByCasFragment(casSubs);
     }
 
-    public AlternativeSubstanceName addAlternativeName(String uuid, AlternativeSubstanceName asn) {
-        Substance subs = substanceRepository.findByUuid(uuid)
+
+    public AlternativeSubstanceName addAltName(Map<String, String> map) {
+        String language = map.get("language");
+        String newAltName = map.get("name");
+        String uuid = map.get("uuid");
+        AlternativeSubstanceName asn = new AlternativeSubstanceName();
+        asn.setName(newAltName);
+        asn.setLanguage(language);
+        Substance substance = substanceRepository.findByUuid(uuid)
                 .orElseThrow(() -> new ResourceNotFoundException("Nie odnaleziono substancki o UUID równym %s.".formatted(uuid))
                 );
-        subs.addAlternativeName(asn);
-        substanceRepository.save(subs);
+        substance.addAlternativeName(asn);
+        substanceRepository.save(substance);
         return asn;
     }
 

@@ -42,13 +42,7 @@ public class SubstanceController {
 
     @PostMapping("/addAltName")
     public ResponseEntity<AlternativeSubstanceName> addAltName(@RequestBody Map<String, String> map) {
-        String language = map.get("language");
-        String newAltName = map.get("name");
-        String uuid = map.get("uuid");
-        AlternativeSubstanceName asn = new AlternativeSubstanceName();
-        asn.setName(newAltName);
-        asn.setLanguage(language);
-        return ResponseEntity.ok(substanceService.addAlternativeName(uuid, asn));
+        return ResponseEntity.ok(substanceService.addAltName(map));
     }
 
     @PutMapping("/")
