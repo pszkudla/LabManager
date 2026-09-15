@@ -35,8 +35,8 @@ public class CabinetService {
         return cabinet.getDtoOut();
     }
 
-    public Optional<Cabinet> findCabinetByUuid(UUID uuid) {
-        return cabinetRepository.getCabinetByUuid(uuid);
+    public Cabinet findCabinetByUuid(UUID uuid) {
+        return cabinetRepository.getCabinetByUuid(uuid).orElseThrow(() -> new ResourceNotFoundException("Nie udało się odnaleźć szafy o UUID = %s.".formatted(uuid)));
     };
 
     public CabinetDtoOut addCabinet(Map<String, String> map) {

@@ -16,11 +16,9 @@ import java.util.UUID;
 public class ShelvesController {
 
     private final ShelvesService shelvesService;
-    private final CabinetService cabinetService;
 
-    public ShelvesController(ShelvesService shelvesService, CabinetService cabinetService) {
+    public ShelvesController(ShelvesService shelvesService) {
         this.shelvesService = shelvesService;
-        this.cabinetService = cabinetService;
     }
 
     @GetMapping("/all")
@@ -34,21 +32,9 @@ public class ShelvesController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<String> addShelf(@RequestBody Map<String, String> map) {
-        String cabinetUuid = map.get("cabinetUuid");
-        UUID cabinetUuidAsUuid = UUID.fromString(cabinetUuid);
-        String shelfName = map.get("shelfName");
-        Optional<Cabinet> cabinet = cabinetService.findCabinetByUuid(cabinetUuidAsUuid);
-        if (cabinet.isPresent()) {
-            Shelf shelfToAdd = new Shelf();
-            shelfToAdd.setShelfName(shelfName);
-            shelfToAdd.setCabinet(cabinet.get());
-            shelvesService.addShelf(shelfToAdd);
-            return  ResponseEntity.ok().body("Pomyślnie dodano półkę.");
-        } else {
-            return  ResponseEntity.badRequest().body("Nie udało się dodać półki.");
-        }
-
+    public ResponseEntity<ShelfDtoOut> addShelf(@RequestBody Map<String, String> map) {
+        ShelfDtoOut dto = shelvesService.createShelf(map);
+        return  ResponseEntity.ok().body(dto);
     }
 
     @PutMapping("/")
@@ -58,14 +44,9 @@ public class ShelvesController {
     }
 
     @DeleteMapping("/{uuid}")
-    public ResponseEntity deleteShelf(@PathVariable(name="uuid") UUID uuid) {
-        Optional<Shelf> optDeletedShelf = shelvesService.deleteShelfByUuid(uuid);
-        if (optDeletedShelf.isPresent()) {
-            Shelf deletedShelf = optDeletedShelf.get();
-            return ResponseEntity.status(HttpStatus.OK).body(deletedShelf);
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Nie znaleziono półki o podanym UUID lub nie jest ona pusta.");
-        }
+    public ResponseEntity<String> deleteShelf(@PathVariable(name="uuid") UUID uuid) {
+        shelvesService.deleteShelfByUuid(uuid);
+        return ResponseEntity.status(HttpStatus.OK).body("Pomyślnie usunięto półkę o UUID = %s.".formatted(uuid));
     }
 
 

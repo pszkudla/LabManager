@@ -17,10 +17,12 @@ import java.util.UUID;
 public class ShelvesCreator {
     private final ShelvesService shelvesService;
     private final CabinetService cabinetService;
+    private final ShelvesRepository shelvesRepository;
 
-    public ShelvesCreator(ShelvesService shelvesService, CabinetService cabinetService) {
+    public ShelvesCreator(ShelvesService shelvesService, CabinetService cabinetService, ShelvesRepository shelvesRepository) {
         this.shelvesService = shelvesService;
         this.cabinetService = cabinetService;
+        this.shelvesRepository = shelvesRepository;
     }
 
     @PostMapping("/allCabinets/{numberOfShelves}")
@@ -34,7 +36,7 @@ public class ShelvesCreator {
                 Shelf shelfToAdd = new Shelf();
                 shelfToAdd.setShelfName(nameOfShelf);
                 shelfToAdd.setCabinet(cabinet);
-                shelvesService.addShelf(shelfToAdd);
+                shelvesRepository.save(shelfToAdd);
             }
         }
     }

@@ -7,6 +7,7 @@ import pl.visa.labmanager.location.cabinet.Cabinet;
 import pl.visa.labmanager.location.cabinet.CabinetRepository;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -43,8 +44,20 @@ public class ShelvesService {
         }
     }
 
-    public void addShelf(Shelf shelf) {
-        shelvesRepository.save(shelf);
+//    public void addShelf(Shelf shelf) {
+//
+//        shelvesRepository.save(shelf);
+//    }
+
+    public ShelfDtoOut createShelf(Map<String, String> map) {
+        String cabinetUuid = map.get("cabinetUuid");
+        UUID cabinetUuidAsUuid = UUID.fromString(cabinetUuid);
+        String shelfName = map.get("shelfName");
+        Cabinet cabinet = cabinetService.findCabinetByUuid(cabinetUuidAsUuid);
+        Shelf shelfToAdd = new Shelf();
+        shelfToAdd.setShelfName(shelfName);
+        shelfToAdd.setCabinet(cabinet);
+        return shelvesRepository.save(shelfToAdd).getShelfDTO();
     }
 
     public ShelfDtoOut updateShelf(ShelfDtoIn shelfPostDto) {
@@ -64,18 +77,13 @@ public class ShelvesService {
         return shelf.getShelfDTO();
     }
 
-    public Optional<Shelf> deleteShelfByUuid(UUID uuid) {
-        Optional<Shelf> shelfToRemove = shelvesRepository.getShelfByUuid(uuid);
-        if (shelfToRemove.isPresent()) {
+    public void deleteShelfByUuid(UUID uuid) {
+        Shelf shelfToRemove = shelvesRepository.getShelfByUuid(uuid).orElseThrow(() -> new ResourceNotFoundException("Nie udało się znaleźć półki o UUID = %s przy próbie jej usunięcia.".formatted(uuid)));
             try {
-                shelvesRepository.delete(shelfToRemove.get());
-                return shelfToRemove;
+                shelvesRepository.delete(shelfToRemove);
             } catch (DataIntegrityViolationException dive) {
                 dive.printStackTrace();
-                return Optional.empty();
             }
-        }
-        return shelfToRemove;
     }
 
     public List<Shelf> getAllShelvesFromCabinet(UUID cabinetUuid) {
