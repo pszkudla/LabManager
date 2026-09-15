@@ -46,13 +46,10 @@ public class LabController {
     }
 
     @PutMapping("/{uuid}")
-    public ResponseEntity editLab(@RequestBody LaboratoryDTO dto) {
-        Optional<Laboratory> lab = labService.updateLaboratory(dto);
-        if (lab.isPresent()) {
-            return ResponseEntity.status(HttpStatus.OK).body("Udało się zmodyfikować rekord.");
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Nie udało się zmodyfikować tego laboratorium.");
-        }
+    public ResponseEntity<String> editLab(@RequestBody LaboratoryDTO dto) {
+        Laboratory lab = labService.updateLab(dto);
+        return ResponseEntity.status(HttpStatus.OK).body("Udało się zmodyfikować rekord. Zmodyfikowany obiekt: %s.".formatted(lab.getLabDTO()));
+
     }
 
 

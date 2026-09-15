@@ -51,19 +51,13 @@ public class LabService {
         }
     }
 
-    public Optional<Laboratory> updateLaboratory(LaboratoryDTO lab) {
-        Optional<Laboratory> optLab = labRepository.getLabFromUuid(UUID.fromString(lab.getUuid()));
-        if (optLab.isPresent()) {
-            Laboratory modifiedLab = optLab.get();
-            modifiedLab.setLaboratoryName(lab.getLaboratoryName());
-            modifiedLab.setRoomNumber(lab.getRoomNumber());
-            modifiedLab.setUuid(UUID.fromString(lab.getUuid()));
-            labRepository.save(modifiedLab);
-            return Optional.of(modifiedLab);
-        }
-        else {
-            return Optional.ofNullable(null);
-        }
+    public Laboratory updateLab(LaboratoryDTO lab) {
+        Laboratory labToEdit = labRepository
+                .getLabFromUuid(UUID.fromString(lab.getUuid())).orElseThrow(()
+                        -> new ResourceNotFoundException("Nie udało się znaleźć laboratorium o UUID = %s przy próbie jego edycji.".formatted(lab.getUuid())));
+        labToEdit.setRoomNumber(lab.getRoomNumber());
+        labToEdit.setLaboratoryName(lab.getLaboratoryName());
+        return labRepository.save(labToEdit);
     }
 
 
