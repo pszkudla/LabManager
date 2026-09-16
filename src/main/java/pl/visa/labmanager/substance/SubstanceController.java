@@ -29,6 +29,11 @@ public class SubstanceController {
         return ResponseEntity.status(HttpStatus.OK).body(substanceService.getSubstanceDtosFromsubstring(substring));
     }
 
+    @GetMapping("/{uuid}")
+    public ResponseEntity<SubstanceDtoOut> getFromUuid(@PathVariable(name="uuid") String uuid) {
+        return ResponseEntity.status(HttpStatus.OK).body(substanceService.getSubstanceByUuid(uuid));
+    }
+
     @GetMapping("/fromCas/{casSubs}")
     public ResponseEntity<List<Substance>> getByCasFragment(@PathVariable(name="casSubs") String casSubstring) {
         System.out.println(casSubstring);

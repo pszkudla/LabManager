@@ -179,5 +179,9 @@ public class SubstanceService {
         return substanceDtos;
     }
 
+    public SubstanceDtoOut getSubstanceByUuid(String uuid) {
+        return substanceRepository.findByUuid(uuid).orElseThrow(() -> new ResourceNotFoundException("Nie odnaleziono substancji o UUID = %s.".formatted(uuid))).getDtoOutFromSubstance();
+    }
+
 
 }
