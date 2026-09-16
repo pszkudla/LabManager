@@ -4,13 +4,16 @@ const StyledSelector = styled.select`
     width: 60%;
 `
 
-function Selector({options=[], stringName, identifierName}) {
+function Selector({options=[], stringName, identifierName, identifierSetter}) {
     const optElements = options.map(option => {
-        return <option value={option[identifierName]} key={option[identifierName]}>{option[stringName]}</option>
+        return <option
+            value={option[identifierName]}
+            key={option[identifierName]}
+        >{option[stringName] }</option>
     })
 
     return (
-        <StyledSelector>
+        <StyledSelector onChange={identifierSetter}>
             {optElements}
         </StyledSelector>
     )

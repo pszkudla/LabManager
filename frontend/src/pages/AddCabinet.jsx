@@ -9,7 +9,7 @@ function AddCabinet() {
     const initialState = {
         cabinetName: "",
         labOptions: [],
-        chosenLab: null
+        labUuid: ""
     }
 
     const [formState, setFormState] = useState(initialState);
@@ -19,7 +19,7 @@ function AddCabinet() {
             ...prevState,
             [propertyName]: propertyValue
         }));
-
+        console.log(formState)
     }
 
     useEffect(() => {
@@ -33,6 +33,15 @@ function AddCabinet() {
     }, []);
 
 
+    const addCabinet = async() => {
+        let map = {"labUuid": formState.labUuid, "cabinetName": formState.cabinetName};
+        const cabinetPost = await fetch(`http://localhost:8080/cabinet/`, {
+            "method": "POST", "body": JSON.stringify(map), headers: {"Content-Type": "application/json"}
+        });
+        const postJson = await cabinetPost.json();
+        console.log(postJson);
+    }
+
     return (
         <>
             <FormTextInput
@@ -42,10 +51,17 @@ function AddCabinet() {
                 setStateFunction={(event) => setNewFormState("cabinetName", event.target.value)}
             /> <br/>
             <h2>Wybierz laboratorium</h2>
-            <Selector options={formState.labOptions} stringName="laboratoryName" identifierName="uuid" >
+            <Selector options={formState.labOptions}
+                      stringName="laboratoryName"
+                      identifierName="uuid"
+                      identifierSetter={(event) =>
+                          setNewFormState("labUuid", event.target.value)
+                      }>
+
             </Selector>
+            <br/>
 
-
+            <ExecuteButton clickFunction={addCabinet} text="Dodaj szafkę."/>
         </>
     )
 }
