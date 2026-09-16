@@ -111,7 +111,8 @@ async function createSubstanceModal(substanceUuid) {
     closeCircle.innerText = "X";
     closeCircle.classList.add("closeCircle");
     closeBelt.append(closeCircle);
-    closeCircle.onclick= () => closeModal(modal);
+    closeCircle.onclick = () => closeModal(modal);
+
 
     const modalContentContainer = document.createElement("div");
     modalContentContainer.classList.add("modalContentContainer");
@@ -120,9 +121,40 @@ async function createSubstanceModal(substanceUuid) {
 
     const containersFetch = await fetch(`http://localhost:8080/container/findContainersBySubstance/${substanceUuid}`);
     const containersJson = await containersFetch.json();
+
+    const substanceFetch = await fetch(`http://localhost:8080/substances/${substanceUuid}`)
+    const substanceJson = await substanceFetch.json();
+    if (substanceJson.photoDir != null) {
+        const photoDir = `http://localhost:8080/images/${substanceJson.photoDir}`
+        const photoElement = document.createElement("img");
+        photoElement.src = photoDir;
+        photoElement.classList.add("substancePhotoInModal");
+        modalContentContainer.appendChild(photoElement);
+    } else {
+        const pseudoPhotoElement = document.createElement("div");
+        pseudoPhotoElement.innerText = "?";
+        pseudoPhotoElement.classList.add("substancePhotoInModal");
+        modalContentContainer.appendChild(pseudoPhotoElement);
+    }
+
+    const h3title = document.createElement("h3");
+    h3title.innerText = substanceJson.iupacName;
+    modalContentContainer.append(h3title);
+
+    const casElement = document.createElement("h4");
+    casElement.innerText = substanceJson.casNumber;
+    modalContentContainer.append(casElement);
+
+    const altNames = document.createElement("p");
+    altNames.innerText = `Inne nazwy: ${substanceJson.alternativeNames}`;
+    modalContentContainer.append(altNames);
+
+
     console.log(containersJson.length)
     if (containersJson.length == 0) {
-        modal.innerHTML += "<h2>Brak substancji w laboratorium</h2>"
+        const msg = document.createElement("h2");
+        msg.innerText = "Brak substancji w laboratorium";
+        modalContentContainer.append(msg);
     } else {
         const table = document.createElement("table");
         table.classList.add("tableStyle")
@@ -148,7 +180,7 @@ async function createSubstanceModal(substanceUuid) {
             row.append(notesCell);
 
             const locationCell = document.createElement("td");
-            locationCell.innerText = container.zoneString;
+            locationCell.innerText = container.zoneString.replaceAll('"', '');
             row.append(locationCell);
         }
     }
