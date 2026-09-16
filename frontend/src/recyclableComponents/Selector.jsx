@@ -14,6 +14,7 @@ function Selector({options=[], stringName, identifierName, identifierSetter}) {
 
     return (
         <StyledSelector onChange={identifierSetter}>
+            <option value="">Wybierz...</option>
             {optElements}
         </StyledSelector>
     )
