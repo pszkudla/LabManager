@@ -120,21 +120,30 @@ div.modal {
     height: 90%;
     top: 5%;
     bottom: 5%;
+    display: flex;
+    flex-direction: column;
 
 }
 
-table.tableStyle, td, th {
+table.tableStyle {
     border: 1px solid black;
-    width: 60%;
-    margin-left: 20%;
-    margin-right: 20%;
+    margin-left: auto;
+    width: 70%;
+    margin-left: auto;
+    margin-right: auto;
 }
 
-.tableStyle th:nth-child(1) { width: 15%; }
+td, th {
+    width: 30%;
+    border: 1px solid black;
+}
 
-.tableStyle th:nth-child(2) { width: 35%; }
 
-.tableStyle th:nth-child(3) { width: 50%; }
+/*.tableStyle th:nth-child(1) { width: 35%; }*/
+
+/*.tableStyle th:nth-child(2) { width: 35%; }*/
+
+/*.tableStyle th:nth-child(3) { width: 30%; }*/
 
 .closeCircle {
     height: 30px;
@@ -149,6 +158,12 @@ table.tableStyle, td, th {
 }
 
 .modalContentContainer {
+    flex: 1;
+    text-align: center;
+    overflow-y: scroll;
+}
+
+h2 {
     text-align: center;
 }
 
@@ -203,4 +218,17 @@ table.tableStyle, td, th {
     width: 80%;
     margin-left: calc(10% - 1px);
     margin-right: calc(10% - 1px);
+}
+
+.substancePhotoInModal {
+    width: 10%;
+    border: 1px solid black;
+    border-radius: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    aspect-ratio: 1/1;
+    font-size: 40px;
+    font-weight: 700;
+    align-content: center;
+    text-align: center;
 }
