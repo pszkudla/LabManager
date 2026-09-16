@@ -1,8 +1,8 @@
 package pl.visa.labmanager.container;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+
 import org.springframework.stereotype.Service;
+import pl.visa.labmanager.LabManagerApplication;
 import pl.visa.labmanager.errors.ResourceNotFoundException;
 import pl.visa.labmanager.location.zone.Zone;
 import pl.visa.labmanager.location.zone.ZoneRepository;
@@ -10,7 +10,12 @@ import pl.visa.labmanager.location.zone.ZoneService;
 import pl.visa.labmanager.substance.Substance;
 import pl.visa.labmanager.substance.SubstanceRepository;
 import pl.visa.labmanager.substance.SubstanceService;
+import pl.visa.labmanager.substanceCategories.SubstanceCategory;
 
+import javax.swing.text.Document;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -93,6 +98,19 @@ public class ContainerService {
         Substance substance = substanceRepository.findByUuid(uuid).orElseThrow(() -> new ResourceNotFoundException("Nie odnaleziono substancji o UUID = %s podczas próby wyszukania pojemników z nią."));
         List<Container> containersWithSubstance = containerRepository.getContainersBySubstance(substance);
         return containersWithSubstance.stream().map(Container::getContainerDtoForSubstanceModal).toList();
+    }
+
+    public void createContainersList(List<SubstanceCategory> substanceCategories) {
+        String containersFolderString = LabManagerApplication.dotenv.get("containers_lists_path");
+
+        if (substanceCategories.size() == 0) {
+            List<Container> containers = containerRepository.findAll();
+            String datetimeString = LocalDateTime.now().toString();
+            String pdfFileName = datetimeString + ".pdf";
+            Path filePath = Paths.get(containersFolderString, pdfFileName);
+
+
+        }
     }
 
 
