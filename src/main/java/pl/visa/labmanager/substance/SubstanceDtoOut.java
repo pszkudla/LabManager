@@ -20,4 +20,5 @@ public class SubstanceDtoOut {
     private String smiles;
     private String uuid;
     private String photoDir;
+    private String categoriesString;
 }
