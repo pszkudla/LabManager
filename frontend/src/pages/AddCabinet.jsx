@@ -23,13 +23,13 @@ function AddCabinet() {
     }
 
     useEffect(() => {
-        async function getOptions() {
+        async function getLabOptions() {
             const labsFetch = await fetch("http://localhost:8080/lab/all");
             const labsJson = await labsFetch.json();
             console.log(labsJson)
             setNewFormState("labOptions", labsJson);
         }
-        getOptions();
+        getLabOptions();
     }, []);
 
 
